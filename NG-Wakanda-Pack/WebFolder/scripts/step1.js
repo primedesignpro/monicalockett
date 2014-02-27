@@ -2,6 +2,6 @@
 
 function Controller($scope, wakConnectorService) {
 
-    $scope.loaded = !!wakConnectorService;
+    $scope.loaded = !!wakConnectorService ? 'loaded' : 'not loaded';
 
 }
