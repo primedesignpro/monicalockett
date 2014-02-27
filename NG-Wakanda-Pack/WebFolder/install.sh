@@ -1,0 +1,1 @@
+yo install angular-wakanda
