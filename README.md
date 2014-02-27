@@ -1,5 +1,5 @@
-##Welcome to Wakanda##
+##NG-Wakanda-Pack##
 
-This is the place to describe your Wakanda application.
+This pack contains a set of angular pages and a Wakanda Model to interact with.
 
 Please visit [www.wakanda.org](http://www.wakanda.org "wakanda.org") for more information.
