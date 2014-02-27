@@ -1,0 +1,1 @@
+﻿angular.module('step2', ['wakConnectorModule']);function Controller($scope, wakConnectorService) {    $scope.initialized = 'not initialized';    // Create a proxy of the server model    wakConnectorService.init().then(function () {        $scope.initialized = 'initialized';    });}
