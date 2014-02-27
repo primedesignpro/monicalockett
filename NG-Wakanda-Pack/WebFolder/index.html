@@ -5,9 +5,8 @@
 
   <title>NG-Wakanda-Pack</title>
 
-  <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="styles/blitzer/jquery-ui-1.10.4.custom.min.css" />
+  <link rel="stylesheet" href="styles/index.css" />
 </head>
 <body>
   <h1>
@@ -17,9 +16,9 @@
   <hr>
 
   <section>
-    <h2>1 - Integrate angular-wakanda in your project</h2>
     <table><tbody><tr>
       <td>
+        <h2>1 - Integrate angular-wakanda in your project</h2>
         <p>Thanks to Yeoman and Bower, Wakanda is very easy to integrate into Angular interfaces</p>
 				<p><img alt="yeoman" src="images/yeoman%20logo.gif" style="width: 80px; height: 88px; float: left;" /><img alt="bower" src="images/bower%20logo.gif" style="width: 80px; height: 80px;" /></p>
         <p>Even manually, angular-wakanda only requires a single JS file to include.</p>
@@ -46,9 +45,9 @@
   </section>
 
   <section>
-    <h2>2 - Initialize the Wakanda Service</h2>
     <table><tbody><tr>
       <td>
+        <h2>2 - Initialize the Wakanda Service</h2>
         <p>The Wakanda Service <strong>init(dataClasses)</strong> method lets you choose to load all the available Model (default) or only specified DataClasses</p>
 				<p>It works as a JavaScript Promise. Let's load everything.</p>
       </td>
@@ -73,6 +72,41 @@
     </tr></tbody></table>
   </section>
 
+  <section>
+    <table><tbody><tr>
+      <td>
+        <h2>3 - Get the data in your Angular scope</h2>
+        <p>The Wakanda Service <strong>init(dataClasses)</strong> method lets you choose to load all the available Model (default) or only specified DataClasses</p>
+				<p>It works as a JavaScript Promise. Let's load everything.</p>
+      </td>
+      <td>
+        <div class="tabs">
+          <ul>
+		  		  <li><a href="#step3-HTML">HTML</a></li>
+  					<li><a href="#step3-JS">JS</a></li>
+  					<li><a href="#step3-preview">Preview</a></li>
+		  		  <li><a href="#step3-JSON">Server Country DataClass</a></li>
+				  </ul>
+		  		<div id="step3-HTML">
+            <script src="http://gist-it.appspot.com/github/AMorgaut/NG-Wakanda-Pack/blob/master/NG-Wakanda-Pack/WebFolder/step3.html?footer=minimal"></script>
+          </div>
+  				<div id="step3-JS">
+            <script src="http://gist-it.appspot.com/github/AMorgaut/NG-Wakanda-Pack/blob/master/NG-Wakanda-Pack/WebFolder/scripts/step3.js?footer=minimal"></script>
+          </div>
+  				<div id="step3-preview">
+            <iframe src="step3.html"></iframe>
+          </div>
+  				<div id="step3-JS">
+            <script src="http://gist-it.appspot.com/github/AMorgaut/NG-Wakanda-Pack/blob/master/NG-Wakanda-Pack/Model.waModel?slice=101:137&footer=minimal"></script>
+          </div>
+        </div>
+      </td>
+    </tr></tbody></table>
+  </section>
+
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 
   <script>
     $('.tabs').tabs();
