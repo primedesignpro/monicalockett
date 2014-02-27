@@ -109,7 +109,7 @@ function importCountries() {
         countries,
         input,
         line,
-        triplet, // name, code2Chars, weight
+        triplet, // name, code, weight
         randomTable,
         weight;
 
@@ -126,7 +126,7 @@ function importCountries() {
             triplet = line.split("\t");
             countries.push({
                 name: triplet[0],
-                code2Chars: triplet[1]
+                code: triplet[1]
             });
             // generate randomTable from the weight of the country for companies repartition
             weight = triplet[2];
@@ -262,7 +262,7 @@ function createCountries() {
             country;
 
         country = new ds.Country(countryData);
-        map[countryData.code2Chars] = country;
+        map[countryData.code] = country;
         country.save();
     });
     // update the random country table for direct entity access
@@ -291,8 +291,8 @@ function createRandomCountryTable() {
         var
             country;
 
-        country = new ds.Country.find('code2Chars == :1', countryData.code2Chars);
-        map[countryData.code2Chars] = country;
+        country = new ds.Country.find('code == :1', countryData.code);
+        map[countryData.code] = country;
     });
     // update the random country table for direct entity access
     randomTable = countries.randomTable;
