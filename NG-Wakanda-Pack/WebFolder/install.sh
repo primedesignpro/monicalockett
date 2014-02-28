@@ -1,1 +1,1 @@
-yo install angular-wakanda
+bower install angular-wakanda
