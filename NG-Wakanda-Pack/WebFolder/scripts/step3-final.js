@@ -8,9 +8,7 @@ function Controller($scope, wakConnectorService) {
         // once ready use the datastore on the $scope
         // feed the angular scope 
         // with the stored data of the Country DataClass
-        ds.Country.$find({}).then(function (event) {
-            $scope.countries = event.result;
-        });
+        $scope.countries = ds.Country.$find();
     });
 
 }
