@@ -13,15 +13,18 @@
       NG-Wakanda-Pack
   </h1>
 
-  <a href="http://angularjs.org/" target="_blank"><img alt="AngularJS" src="images/angular-shield.png" style="float:left; margin:0 1em 1em 0; width: 197px; height: 207px;border:none" /></a>
-  <p>&nbsp;</p>
-  <p>Build <a href="http://angularjs.org/" target="_blank">AngularJS</a> expressive interfaces linked to your REST provided <a href="http://angularjs.org/" target="_blank">Wakanda</a> Application Model.</p>
-  <p>This solution pack contain several demo pages to learn how to use <strong><a href="http://wakanda.org/angular">angular-wakanda</a></strong></p>
-  <p>All this pack and its running examples are available from this Github repository: <a href="https://github.com/AMorgaut/NG-Wakanda-Pack" target="_blank">NG-Wakanda-Pack</a></p>
+  <div style="font-size: 18px">
+    <a href="http://angularjs.org/" target="_blank"><img alt="AngularJS" src="images/angular-shield.png" style="vertical-align: middle;float:left; margin:0 1em 1em 0; width: 197px; height: 207px;border:none" /></a>
+    <a href="http://wakanda.org/" target="_blank"><img alt="Wakanda Server" src="images/wakandadb.png" style="vertical-align: middle;float:right; margin:0 1em 1em 0; width: 180px; height: 180px;border:none" /></a>
+    <p>&nbsp;</p>
+    <p style="font-weight:bold;">Build <a href="http://angularjs.org/" target="_blank">AngularJS</a> expressive interfaces linked to your REST provided <a href="http://angularjs.org/" target="_blank">Wakanda</a> Application Model.</p>
+    <p>This solution pack contain several demo pages to learn how to use <strong><a href="http://wakanda.org/angular">angular-wakanda</a></strong></p>
+    <p>All this pack and its running examples are available from this Github repository: <a href="https://github.com/AMorgaut/NG-Wakanda-Pack" target="_blank">NG-Wakanda-Pack</a></p>
+  </div>
+
+  <hr style="clear: left;">
 
   <a href="https://github.com/AMorgaut/NG-Wakanda-Pack"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github-camo.global.ssl.fastly.net/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
-
-  <hr>
 
   <section>
     <table><tbody><tr>
@@ -89,7 +92,7 @@
   <section>
     <table><tbody><tr>
       <td>
-        <h2>3 - Get the data in your Angular scope</h2>
+        <h2>3 - Get your Data in One line</h2>
         <p><a href="http://wakanda.org/angular" target="_blank">angular-wakanda</a> lets you have all your Wakanda Model usable directly from Angular based Web Application interfaces.</p>
         <p>Once initialized, integrating your defined Business JS Objects into your angular scopes is as simple as this <strong>$find(options)</strong> method.</p>
         <script src="http://gist-it.appspot.com/github/AMorgaut/NG-Wakanda-Pack/blob/master/NG-Wakanda-Pack/WebFolder/scripts/step3-final.js?slice=10:10&footer=minimal"></script>
@@ -112,7 +115,7 @@
             <iframe src="step3.html"></iframe>
           </div>
   				<div id="step3-JSON">
-            <script src="http://gist-it.appspot.com/github/AMorgaut/NG-Wakanda-Pack/blob/master/NG-Wakanda-Pack/Model.waModel?slice=106:142&footer=minimal"></script>
+            <script src="http://gist-it.appspot.com/github/AMorgaut/NG-Wakanda-Pack/blob/master/NG-Wakanda-Pack/Model.waModel?slice=115:150&footer=minimal"></script>
           </div>
         </div>
       </td>
@@ -127,6 +130,7 @@
         <p>Get access to related data directly through your entity object properties</p>
         <p>All you have to do is to tell angular-wakanda when you want to load it locally with this related property <strong><code>$fetch()</code></strong> method</p>
         <script src="http://gist-it.appspot.com/github/AMorgaut/NG-Wakanda-Pack/blob/master/NG-Wakanda-Pack/WebFolder/scripts/step4-final.js?slice=15:15&footer=minimal"></script>
+        <p>Thanks to the Wakanda <a href="http://doc.wakanda.org/Attributes.300-574626.en.html" target="_blank">alias attributes</a>, this example shows the company manager fullname without even fetching the related Manager</p>
       </td>
       <td>
         <div class="tabs">
@@ -134,6 +138,7 @@
   					<li><a href="#step4-preview">Preview</a></li>
   					<li><a href="#step4-JS">JS</a></li>
 		  		  <li><a href="#step4-HTML">HTML</a></li>
+		  		  <li><a href="#step4-JSON">Company DataClass</a></li>
 				  </ul>
   				<div id="step4-JS">
             <script src="http://gist-it.appspot.com/github/AMorgaut/NG-Wakanda-Pack/blob/master/NG-Wakanda-Pack/WebFolder/scripts/step4-final.js?footer=minimal"></script>
@@ -143,6 +148,42 @@
           </div>
   				<div id="step4-preview">
             <iframe src="step4.html"></iframe>
+          </div>
+  				<div id="step4-JSON">
+            <script src="http://gist-it.appspot.com/github/AMorgaut/NG-Wakanda-Pack/blob/master/NG-Wakanda-Pack/Model.waModel?slice=55:114&footer=minimal"></script>
+          </div>
+        </div>
+      </td>
+    </tr></tbody></table>
+  </section>
+
+  <section>
+    <table><tbody><tr>
+      <td>
+        <h2>5 - Modify your data</h2>
+        <p>Each Wakanda DataClass provides a <strong><code>$create()</code></strong> method</p>
+        <p>Each received Wakanda entities comes with its <strong><code>$update()</code></strong> and <strong><code>$remove()</code></strong> methods</p>
+        <script src="http://gist-it.appspot.com/github/AMorgaut/NG-Wakanda-Pack/blob/master/NG-Wakanda-Pack/WebFolder/scripts/step5-final.js?slice=15:15&footer=minimal"></script>
+      </td>
+      <td>
+        <div class="tabs">
+          <ul>
+  					<li><a href="#step5-preview">Preview</a></li>
+  					<li><a href="#step5-JS">JS</a></li>
+		  		  <li><a href="#step5-HTML">HTML</a></li>
+		  		  <li><a href="#step5-JSON">Employee DataClass</a></li>
+				  </ul>
+  				<div id="step5-preview">
+            <iframe src="step5.html"></iframe>
+          </div>
+  				<div id="step5-JS">
+            <script src="http://gist-it.appspot.com/github/AMorgaut/NG-Wakanda-Pack/blob/master/NG-Wakanda-Pack/WebFolder/scripts/step5-final.js?footer=minimal"></script>
+          </div>
+		  		<div id="step5-HTML">
+            <script src="http://gist-it.appspot.com/github/AMorgaut/NG-Wakanda-Pack/blob/master/NG-Wakanda-Pack/WebFolder/step5-final.html?footer=minimal"></script>
+          </div>
+  				<div id="step5-JSON">
+            <script src="http://gist-it.appspot.com/github/AMorgaut/NG-Wakanda-Pack/blob/master/NG-Wakanda-Pack/Model.waModel?slice=55:114&footer=minimal"></script>
           </div>
         </div>
       </td>
