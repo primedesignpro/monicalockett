@@ -1,4 +1,4 @@
-﻿angular.module('step2', ['wakConnectorModule']);
+﻿angular.module('step3', ['wakConnectorModule']);
 
 function Controller($scope, wakConnectorService) {
 
