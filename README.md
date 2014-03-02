@@ -1,6 +1,6 @@
 #Your Angular-Wakanda Dev Pack#
 
-See it running live at [http://ng-wakand-pack.waktest.com](http://ng-wakand-pack.waktest.com)
+See it running live at [http://ng-wakanda-pack.waktest.com](http://ng-wakanda-pack.waktest.com)
 
 ##About##
 
