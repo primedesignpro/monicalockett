@@ -2,8 +2,9 @@
 
 angular.module('playAngular', ['wakConnectorModule']);
 
+
 function PlayController($scope, wakConnectorService) {
-	wakConnectorService.init('Country,Company,Employee').then(function (ds) {
+	wakConnectorService.init('Country,Company,Employee').then(function oninit(ds) {
 	    PlayControllerReady($scope, ds);
 	});
 }
