@@ -3,11 +3,9 @@
 function Controller($scope, wakConnectorService) {
 
     // Create a proxy of the server model
-    wakConnectorService.init('Employee').then(function (ds) {
+    wakConnectorService.init('Employee').then(function oninit(ds) {
  
-        ds.Employee.$find({}).then(function (event) {
-            $scope.employees = event.result;
-        });
+        $scope.employees = ds.Employee.$find({});
 
     });
 
