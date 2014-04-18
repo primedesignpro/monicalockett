@@ -18,3 +18,11 @@ This pack contains a set of angular pages and a Wakanda Model to interact with a
 
 All this pack and its running examples are available from this Github repository:
 [http://github.com/AMorgaut/NG-Wakanda-Pack](http://github.com/AMorgaut/NG-Wakanda-Pack)
+
+###API Documentation###
+
+An [Angular-Wakanda API Documentation](API-DOC.md) is included in this Dev Pack so, once downloaded, you can easily check it offline.
+
+###Release Notes###
+
+You can check the [release notes](RELEASE-NOTES.md) to see the Dev Pack and the Angular-Wakanda version changes
