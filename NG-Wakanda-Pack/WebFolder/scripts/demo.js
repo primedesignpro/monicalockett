@@ -47,31 +47,8 @@ function PlayControllerReady($scope, ds) {
         }
         return {filter: filter.join(' AND ')};
     }
+    
 
-    function loadCountries(ignore, filter) {
-        filter = formatFilter(filter);
-        ds.Country.$find(filter).then(function(event) {
-            $scope.countries = event.result;
-            $scope.switchCurrentEntity('Country', event.result[0]);
-        });
-    }
-    
-    function loadCompanies(country, filter) {
-        filter = formatFilter(filter, country, 'country');
-        ds.Company.$find(filter).then(function(event) {
-            $scope.companies = event.result;
-            $scope.switchCurrentEntity('Company', event.result[0]);
-        });
-    }
-    
-    function loadEmployees(company, filter) {
-        filter = formatFilter(filter, company, 'company');
-        ds.Employee.$find(filter).then(function(event) {
-            $scope.employees = event.result;
-            $scope.switchCurrentEntity('Employee', event.result[0]);
-        });
-    }
-/*
 
     function loadCountries(ignore, filter) {
         filter = formatFilter(filter);
@@ -96,6 +73,6 @@ function PlayControllerReady($scope, ds) {
             $scope.switchCurrentEntity('Employee', event.result[0]);
         });
     }
-*/
+
     loadCountries();
 }
