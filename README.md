@@ -4,7 +4,7 @@ See it running live at [http://ng-wakanda-pack.waktest.com](http://ng-wakanda-pa
 
 ##Warning##
 
-**Angular-Wakanda** is not yet available in stable nor beta version. The versions which are in this pack are very early versions which do not implement the final API shown in the examples (the previews use a temporary API)
+**Angular-Wakanda** is not yet available in stable nor beta version. The versions which are in this pack are very early versions which do not implement the final API shown in the examples (the previews often use a temporary API)
 
 ##About##
 
