@@ -14,7 +14,7 @@
   <h1>Angular-Wakanda Step 5 - Modify your Data</h1>
 
   <section ng-controller="Controller">
-    <img ng-show="employee" ng-src="{{employee.photo.$src}}" style="float:right;width:80px; height:120px;">
+    <img ng-show="employee" ng-src="{{employee.photo.src}}" style="float:right;width:80px; height:120px;">
     <p>
       {{employees.length}} employees found:
       <select ng-model="employee" ng-options="emp.fullName for emp in employees">

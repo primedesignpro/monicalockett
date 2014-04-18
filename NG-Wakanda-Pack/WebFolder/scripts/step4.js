@@ -12,20 +12,17 @@ function Controller($scope, wakConnectorService) {
         $scope.$watch('country', function fetchRelatedCompanies(country) {
             if (!country) return;
             // get companies related to current country
-
-            // code expected to work with version 0.0.9
-            $scope.companies = ds.Company.$find({filter: 'country.ID = ' + country.ID});
-
-            // code expected to work with final API
-            //country.companies.$fetch();
+            country.companies.$fetch();
 
         });
 
         // hack to get alias attribute available
         $scope.$watch('company', function fetchShowCompany(company) {
             if (!company) return;
+            if (company.managerName) return;
+            console.warn('the alias "managerName" attribute is missing:', company);
+            console.log('manually add the managerName value from internal properties');
             company.managerName = company.$_entity.managerName.value;
-            console.log(company);
         });
 
     });

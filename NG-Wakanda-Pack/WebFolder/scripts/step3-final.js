@@ -1,9 +1,9 @@
-﻿angular.module('step3', ['wakConnectorModule']);
+﻿angular.module('step3', ['$wakanda']);
 
-function Controller($scope, wakConnectorService) {
+function Controller($scope, $wakanda) {
 
     // Create a proxy of the server model
-    wakConnectorService.init().then(function oninit(ds) {
+    $wakanda.init().then(function oninit(ds) {
  
         // once ready use the datastore on the $scope
         // feed the angular scope 

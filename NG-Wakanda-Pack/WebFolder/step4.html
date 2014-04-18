@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>Angular-Wakanda Step 4 - Getting related Data</title>
+  <title>Angular-Wakanda Step 4 - Getting related Data out of the box</title>
 
   <script src="scripts/angular.min.js"></script>
   <script src="scripts/angular-wakanda.min.js"></script>
@@ -11,7 +11,7 @@
 </head>
 
 <body ng-app="step4">
-  <h1>Angular-Wakanda Step 4 - Getting related Data</h1>
+  <h1>Angular-Wakanda Step 4 - Getting related Data out of the box</h1>
 
   <section ng-controller="Controller">
     <p>
@@ -23,8 +23,8 @@
     <div ng-show="country">
       <p>Its country code is <strong>{{country.code}}</strong></p>
       <p>
-        {{companies.length}} companies are located there:
-        <select ng-model="company" ng-options="c.name for c in companies">
+        {{country.companies.length}} companies are located there:
+        <select ng-model="company" ng-options="c.name for c in country.companies">
           <option value="">-- select a company to see its details --</option>
         </select>
       </p>
@@ -32,15 +32,5 @@
     </div>
   </section>
 
-  <!-- Marketo Analytics -->
-  <script type="text/javascript" id="marketoAnalytics">
-      document.write(unescape("%3Cscript src='" + document.location.protocol + "//munchkin.marketo.net/munchkin.js' type='text/javascript'%3E%3C/script%3E"));
-  </script>
-  <script>
-      var Munchkin;
-      if (Munchkin) {
-          Munchkin.init('531-MRT-468');
-      }
-  </script>
 </body>
 </html>
