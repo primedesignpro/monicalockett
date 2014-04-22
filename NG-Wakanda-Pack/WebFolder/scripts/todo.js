@@ -2,25 +2,17 @@
 
 var Item;
 
-angular.module('todo', ['wakConnectorModule'])
+angular.module('todo', ['wakConnectorModule']);
 
 function Todo($scope, wakConnectorService) {
-  wakConnectorService.init('Item').then(function () {
-    TodoReady($scope, wakConnectorService);
-  });
-}
+  wakConnectorService.init('Item').then(function (ds) {
 
-function TodoReady($scope, $wakanda) {
-	
-  Item = $wakanda.getDatastore().Item;
-
-  $scope.items = [];
+  $scope.items = ds.Item.$find({});
     
   $scope.add = function() {
-    var item = Item.$create({text: $scope.newText, done: false});
+    var item = ds.Item.$create({text: $scope.newText, done: false});
     $scope.items.push(item);
     $scope.newText = '';
-
     item.$save();
   };
 
@@ -39,9 +31,6 @@ function TodoReady($scope, $wakanda) {
       return true;
     });
   };
-  
-  Item.$find({}).then(function(event) {
-    $scope.items = event.result;
-  });
 
+  });
 }
