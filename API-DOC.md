@@ -8,7 +8,7 @@
 
 All async methods return a promise 
 
-Developers **don't have to call** <code>$scope.$apply</code> when using an async methods of our api. Either it is done transparently, either the $scope is passed as a parameter to the api
+*Developers **don't have to call** <code>$scope.$apply()</code> when using an async methods of **angular-wakanda**. Either it is done transparently, either the `$scope` is passed as parameter to the callback.*
 
 
 
@@ -16,8 +16,28 @@ Developers **don't have to call** <code>$scope.$apply</code> when using an async
 
 ### Initialization
 
-The developer can have an already fulfilled service by adding a resolve function in it's routeProvider.
+####Script Insertion
 
+The Angular-Wakanda connector must of course be loaded in the html. 
+The most classic way is to add it manually:
+
+```html<script src="scripts/angular-wakanda.min.js"></script>```
+
+This can also be done using [Bower](http://bower.io)
+
+```
+bower install angular-wakanda
+```
+
+####Angular Module Loading
+
+The next step, as for any angular module, is to be sure to load the Wakanda connector service (currently called `wakConnectorModule`)
+
+```javascriptangular.module('MyApp', ['wakConnectorModule']);```
+
+#### init()
+
+The `init()` method load a proxy of the Wakanda Model in the Angular application. As all **angular-wakanda** async methods it returns a Promise. It is possible to specify which DataClass should be loaded, otherwise, by default, all will be loaded.
 
 ```javascript
 // Load all the Data Model
@@ -35,9 +55,11 @@ $wakanda.init('Product', 'Person');
 $wakanda.getDatastore(); 
 ```
 
+The developer can have an already fulfilled service by adding a resolve function in it's routeProvider.
 
 
-### Inside a controller
+
+### getDataStore()
 
 All loaded dataclasses are accessible via the Datastore Object delivered by the init Promise callback parameter or the <code>getDataStore()</code> method
 
@@ -47,10 +69,13 @@ var Product = $wakanda.getDatastore().Product
 ```
 
 
-### User authentication
+### login() / logout()
 
-**TODO**
+**TO BE DONE**
 
+To get the required permissions to use the Wakanda DataClass, it is often required to be authenticated. The Wakanda backend has a native directory and can handle custom authentications to custom or remote directories.
+
+**angular-wakanda** will expose a standard API to login and logout from the frontend.
 
 ```javascript
 // return a promise
@@ -59,10 +84,16 @@ $wakanda.login(user, password);
 $wakanda.logout();
 ```
 
-
 see [Wakanda Directory](http://doc.wakanda.org/home2.en.html#/Directory/Index-of-methods-and-properties.902-814586.en.html)
 
+
+## DataStore API
+
+The `DataStore` instance is created by the `init()` method and sent to its promise callback, or returned by the `getDataStore()` method. It holds a collection of proxy Wakanda `DataClass` objects (ex: 'Product').
+
 ## DataClass API
+
+`angular-wakanda` DataClass object are proxies of the backend defined Wakanda Dataclasses. As such, they expose all their properties and methods, as well as their structure metadata themselves.
 
 ### Metadata
 
@@ -90,12 +121,17 @@ They return a promise.
 
 
 ```javascript
-var dataClass = ds.Product;
-dataClass.myMethod().then(function () {});
+var Product = ds.Product; // get the Product DataClass
+Product.myMethod().then(function () {}); // call one of its methods
 ```
 
 
+### Framework methods and properties
+
+
 #### Syntax (inspired by ngResource)
+
+They are prefixed by $ to avoid name collision with user defined methods
 
 Like for ngResource, those methods return an empty array, or object, with a $promise property.
 
@@ -109,8 +145,8 @@ $scope.people.$promise; // a promise is provided if needed
 
 // Wait for result before binding (need to transform result for example)
 var people = ds.Person.$find({limit: 10}, function() {
-	// peoples.length == 10;
-	// modify peoples
+	// people.length == 10;
+	// modify people
 	$scope.people = people;
 });
 
@@ -119,12 +155,12 @@ $scope.spinnerActive = true;
 $scope.people = ds.Person.$find({limit: 10}, function() {
 	$scope.spinnerActive = false;
 });
+// alternative syntax via the $promise property
+$scope.people = ds.Person.$find({limit: 10});
+$scope.people.$promise.then(function() {
+	$scope.spinnerActive = false;
+});
 ```
-
-
-### Framework methods and properties
-
-They are prefixed by $ to avoid name collision with user defined methods
 
 #### $find()
 
@@ -303,7 +339,7 @@ var filteredProducts = products.$find({
 
 Unlike `$fetch()`, `$find()` do not modify the array of the current entity collection (products here) but return a new entity collection. This functionality is usefull for related entities if you want to have multiple display of them.
 
-#### $query
+#### $query()
 
 Contains the state of the initial fetch parameters.
 
@@ -344,52 +380,6 @@ All Entity level Wakanda User defined methods are available on the entity. They 
 
 ```javascript
 product.myEntityMethod().then(function() {}); // entity method
-```
-
-
-### Client side validation
-
-**TO BE DONE**
-### Special Images and blob attributes
-
-
-#### src
-
-Images and blob urls are available their a `src` attribute.
-
-
-```javascript
-employee.largePhoto.src === '/rest/employee(123)/largePhoto/...'
-```
-
-
-#### $upload(file)
-
-The image or blob attribute have a $upload() method to upload file.
-This method expects a window.File parameter. It returns a promise.
-
-Here some pseudo-code of this function:
-
-
-```javascript
-employee.largePhoto.$upload(img);
-```
-
-
-**Usage code**
-
-For an input like this : 
-
-
-```html
-&lt;input type="file" id="fileToUpload" /&gt;
-```
-
-
-
-```javascript
-var file = document.getElementById('fileToUpload').files[0];
-employee.photo.$upload(file).then(…);
 ```
 
 
@@ -502,9 +492,52 @@ firstProduct.$remove().then(function() {});
 
 firstProduct should not be removed from the products array, the developer must do it manually.
 
+## Image / Blob Attribute API
 
 
-## API Architecture
+#### src
+
+Images and blob urls are available their a `src` attribute.
+
+
+```javascript
+employee.largePhoto.src === '/rest/employee(123)/largePhoto/...'
+```
+
+
+#### $upload(file)
+
+The image or blob attribute have a $upload() method to upload file.
+This method expects a window.File parameter. It returns a promise.
+
+Here some pseudo-code of this function:
+
+
+```javascript
+employee.largePhoto.$upload(img);
+```
+
+
+**Usage code**
+
+For an input like this : 
+
+
+```html
+&lt;input type="file" id="fileToUpload" /&gt;
+```
+
+
+
+```javascript
+var file = document.getElementById('fileToUpload').files[0];
+employee.photo.$upload(file).then(…);
+```
+
+
+
+
+## API Architecture Advanced Overview 
 
 `NgWakEntity` class have all framework methods on it's prototype :
 
@@ -567,15 +600,4 @@ me.company.companyUserDefinedMethod();
 me.$save();
 me.personUserDefinedMEthod();
 ```
-
-
-### Global cache
-
-There is no global cache that garanty that all same entities are stored only once in memory.
-It is planned to use [ECMAScript 6 Weakmap](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap)
-
-### NgWakEntity creation from WAFEntity
-
-There will be a method (private ?) to convert `WAFEntity` instances to `NgWakEntity` instances.
-This will be used for deserialization of entity collection.
 
