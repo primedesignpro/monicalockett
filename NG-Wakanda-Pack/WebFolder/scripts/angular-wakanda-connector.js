@@ -3,7 +3,8 @@ var wakConnectorModule = angular.module('wakConnectorModule', []);
 wakConnectorModule.factory('wakConnectorService', ['$q', '$rootScope', '$http', function($q, $rootScope, $http) {
 
     var ds = null,
-        NgWakEntityClasses = {};
+        NgWakEntityClasses = {},
+        DEFAULT_PAGESIZE_NESTED_COLLECTIONS = 40;
 
     /** connexion part */
 
@@ -26,7 +27,7 @@ wakConnectorModule.factory('wakConnectorService', ['$q', '$rootScope', '$http', 
             ds = event.dataStore;
             prepare.wafDatastore(ds);
             prepare.wafDataClasses(ds);
-            console.log('>wakConnectorService init > success', event, 'ds', ds);
+//            console.log('>wakConnectorService init > success', event, 'ds', ds);
             deferred.resolve(ds);
           },
           onError: function(event) {
@@ -113,16 +114,16 @@ wakConnectorModule.factory('wakConnectorService', ['$q', '$rootScope', '$http', 
         //hint test for $* and _* properties when looping through arguments
         
         //loop through the dataClasses of the dataStore
-        console.group('prepare.wafDataClasses()', dataStore);
+//        console.group('prepare.wafDataClasses()', dataStore);
         for (dataClassName in dataStore) {
           if (dataStore.hasOwnProperty(dataClassName) && dataClassName !== "_private" && /^\$.*/.test(dataClassName) === false) {            
-            console.group('DataClass[%s]', dataStore[dataClassName]._private.className, dataStore[dataClassName]);
+//            console.group('DataClass[%s]', dataStore[dataClassName]._private.className, dataStore[dataClassName]);
             prepare.wafDataClassAddMetas(dataStore[dataClassName]);
             prepare.wafDataClassCreateNgWakEntityClasses(dataStore[dataClassName]);
-            console.groupEnd();
+//            console.groupEnd();
           }
         }
-        console.groupEnd();
+//        console.groupEnd();
       },
       wafDataClassAddMetas : function(dataClass){
         var methodName,
@@ -256,7 +257,7 @@ wakConnectorModule.factory('wakConnectorService', ['$q', '$rootScope', '$http', 
           var that = this;
           wakOptions.onSuccess = function(event) {
             rootScopeSafeApply(function() {
-              console.log('userMethods.onSuccess', 'event', event);
+//              console.log('userMethods.onSuccess', 'event', event);
               //sync after request
               if(mode === '$_entity'){
                 that.$syncEntityToPojo();
@@ -307,7 +308,7 @@ wakConnectorModule.factory('wakConnectorService', ['$q', '$rootScope', '$http', 
             result;
         parsedXhrResponse = JSON.parse(event.XHR.response);
         rawEntities = parsedXhrResponse.__ENTITIES;
-        console.log('rawEntities',rawEntities);
+//        console.log('rawEntities',rawEntities);
         result = transform.jsonResponseToNgWakEntityCollection(event.result.getDataClass(), rawEntities);
         if(onlyOne !== true){
           result.$_collection = event.result;
@@ -321,7 +322,7 @@ wakConnectorModule.factory('wakConnectorService', ['$q', '$rootScope', '$http', 
           }
         }
         event.result = result;
-        console.log('after transform.queryEventToNgWakEntityCollection','event',event);
+//        console.log('after transform.queryEventToNgWakEntityCollection','event',event);
         return event;
       },
       /**
@@ -340,11 +341,11 @@ wakConnectorModule.factory('wakConnectorService', ['$q', '$rootScope', '$http', 
       fetchEventToNgWakEntityCollection : function(event) {
         var result = [],
             dataClass = event.result._private.dataClass;
-        console.log('transform.fetchEventToNgWakEntityCollection',event);
+//        console.log('transform.fetchEventToNgWakEntityCollection',event);
         event.entities.forEach(function(entity,index){
           result.push(dataClass.$create(entity));
         });
-        console.log('transformFetchEvent','result',result);
+//        console.log('transformFetchEvent','result',result);
         event.result = result;
       },
       asyncResult : function(data, result, promise){
@@ -361,18 +362,41 @@ wakConnectorModule.factory('wakConnectorService', ['$q', '$rootScope', '$http', 
           //update framework collection methods
           transform.addFrameworkMethodsToRootCollection(result);
           //add user defined methods for only on the root collection
-          userDefinedEntityCollectionMethods = prepareHelpers.createUserDefinedEntityCollectionMethods(data.$_collection.getDataClass());
-          for(var methodName in userDefinedEntityCollectionMethods){
-            if(userDefinedEntityCollectionMethods.hasOwnProperty(methodName)){
-              result[methodName] = userDefinedEntityCollectionMethods[methodName];
-            }
-          }
+          transform.addUserDefinedMethodsToCollection(result,true);
           //update promise
           result.$promise = promise;
         } else {
           helpers.shallowClearAndCopy(data, result);
           result.$promise = promise;
         }
+      },
+      addUserDefinedMethodsToCollection: function(result, root){
+        var userDefinedEntityCollectionMethods,
+                dataClass = null;
+        //if in anyway the private $_collection pointer isn't here, simply return the object
+        //@todo optimize conditionals
+        if(root === true){
+          if(typeof result.$_collection !== 'undefined'){
+            dataClass = result.$_collection.getDataClass();
+          }
+        }
+        else if(root === false){
+          if(typeof result.$_collection !== 'undefined' && result.$_collection.relEntityCollection !== 'undefined'){
+            dataClass = result.$_collection.relEntityCollection;
+          }
+        }
+        //if couldn(t retrieve the dataClass (there may not be always a pointer alredy) - return the object untouched
+        if(dataClass === null){
+          return result;
+        }
+        //add user defined methods for only on the root collection
+        userDefinedEntityCollectionMethods = prepareHelpers.createUserDefinedEntityCollectionMethods(dataClass);
+        for(var methodName in userDefinedEntityCollectionMethods){
+          if(userDefinedEntityCollectionMethods.hasOwnProperty(methodName)){
+            result[methodName] = userDefinedEntityCollectionMethods[methodName];
+          }
+        }
+        return result;
       },
       addFrameworkMethodsToRootCollection: function(result){
         result.$fetch = $$fetch;
@@ -384,7 +408,9 @@ wakConnectorModule.factory('wakConnectorService', ['$q', '$rootScope', '$http', 
         result.$toJSON = $$toJSON;
       },
       addFrameworkMethodsToNestedCollection : function(result){
-        result.$fetch = $fetchOnNestedDeferredCollection;
+        //@todo $totalCount
+//        result.$fetch = $fetchOnNestedDeferredCollection;
+        result.$fetch = $fetchOnNestedCollection;
         result.$toJSON = $$toJSON;
         result.$isLoaded = $$isLoadedOnNestedDeferredCollection;
         result.$totalCount = function(){console.error('$totalCount not yet implemented on nested collections');};
@@ -431,11 +457,18 @@ wakConnectorModule.factory('wakConnectorService', ['$q', '$rootScope', '$http', 
       }
       //attach $_entity pointer (which is an instance of WAF.Entity) from the param entity whatever it is (a pojo or a WAF.Entity) but not on null or empty entities
       else if(isEntityWafEntity === false){
-        //console.log('TEST null entities','entity',entity);
+        //if this is a deferred, keep a private reference and add a $fetch method - withour creating the $_entity
         if(entity.__deferred){
-          //if this is a deferred, keep a private reference and add a $fetch method - withour creating the $_entity
+          //case from direct XHR
           ngWakEntityNestedObject.$_deferred = {
             uri : entity.__deferred.uri,
+            dataClass : currentDataClass
+          };
+        }
+        else if(entity.value && entity.value.__deferred){
+          //case from getValue (via DataProvider)
+          ngWakEntityNestedObject.$_deferred = {
+            uri : entity.value.__deferred.uri,
             dataClass : currentDataClass
           };
         }
@@ -500,18 +533,31 @@ wakConnectorModule.factory('wakConnectorService', ['$q', '$rootScope', '$http', 
                 dataClass : attributes[key].getRelatedClass(),
                 attr : key
               };
-              ngWakEntityNestedObject[key].$fetch = function(){console.warn('$fetch on deferred not yet implemented (this one fetches a ollection of entities)');};
               transform.addFrameworkMethodsToNestedCollection(ngWakEntityNestedObject[key]);
             }
+            //@todo @warn - this part is for the setValue on collection, reactivate it when getting back to it - see also $fetchOnNestedCollection method
+            if(ngWakEntityNestedObject[key]){
+              ngWakEntityNestedObject[key].$_collection = ngWakEntityNestedObject.$_entity[key];
+            }
+//            console.log('ngWakEntityNestedObject.$_entity[key]',ngWakEntityNestedObject.$_entity[key]);
+//            ngWakEntityNestedObject[key].$_collection = ngWakEntityNestedObject.$_entity[key].relEntityCollection;
+//            ngWakEntityNestedObject[key].$_parent = ngWakEntityNestedObject.$_entity;
+//            console.log('ngWakEntityNestedObject.$_entity',ngWakEntityNestedObject.$_entity,'ngWakEntityNestedObject.$_entity.staff',ngWakEntityNestedObject.$_entity.staff);
+            //end of the @todo @warn part
             //@todo whatever add collection methods - may not be possible - done before
           }
           else if (attributes[key].kind === "relatedEntity") {
             //console.log('relatedEntity',key,entity,entity[key]);
-            ngWakEntityNestedObject[key] = new NgWakEntityClasses[isEntityWafEntity ? entity[key].relEntity.getDataClass().$name : ds[currentDataClass.$name].$attr(key).type]();
-            if(isEntityWafEntity){
+            //@warn the error is here .relEntity doesn't exist
+            //debugger;
+            ngWakEntityNestedObject[key] = new NgWakEntityClasses[(isEntityWafEntity && entity[key].relEntity) ? entity[key].relEntity.getDataClass().$name : ds[currentDataClass.$name].$attr(key).type]();
+            if(isEntityWafEntity && entity[key].relEntity !== null){
               reccursiveFillNgWakEntityFromEntity(entity[key].relEntity,ngWakEntityNestedObject[key],entity[key].relEntity.getDataClass());
             }
             else{
+//              if(entity[key].getValue) console.warn('deferred1',key,entity[key].value,entity[key].getRawValue());
+//              if(entity[key].__deferred) console.warn('deferred2',key,entity[key].__deferred);
+//              console.log(key,entity[key],ngWakEntityNestedObject[key],ds[ds[currentDataClass.$name].$attr(key).type]);
               reccursiveFillNgWakEntityFromEntity(entity[key],ngWakEntityNestedObject[key],ds[ds[currentDataClass.$name].$attr(key).type]);
             }
           }
@@ -521,6 +567,91 @@ wakConnectorModule.factory('wakConnectorService', ['$q', '$rootScope', '$http', 
     
     var $$upload = function(file){
       console.log('$upload not yet implemented');
+    };
+    
+    /**
+     * 
+     * @param {Array[NgWakEntity} resultSet (nested collection)
+     * @param {Int} pageSize
+     * @param {Int} start
+     * @returns {undefined}
+     */
+    var updateCollectionQueryInfos = function(resultSet, pageSize, start){
+      if(typeof resultSet.$query === 'undefined'){
+        resultSet.$query = {};
+      }
+      resultSet.$query.pageSize   = pageSize;
+      resultSet.$query.start      = start;
+    };
+    
+    //@todo change the pageSize to the collection length
+    var $fetchOnNestedCollection = function(options, mode){
+      //@todo take mode param in account for pagination / also $query
+      //@todo bug inside getValue + forEach with boundaries
+      //@todo add collection methods if not present
+      console.warn('This method is currently under refactoring');
+      var that = this,
+          deferred = $q.defer(),
+          wakOptions = {};
+      mode = (typeof mode === "undefined" || mode === "replace") ? "replace" : mode;
+      if(!that.$_collection){
+        deferred.reject('Missing $_collection private pointer (WAF.EntityAttributeRelatedSet), check if you used $find or $fetch to load the collection');
+        console.warn('Missing $_collection private pointer (WAF.EntityAttributeRelatedSet), check if you used $find or $fetch to load the collection');
+      }
+      else{
+        //options check
+        if(!options){
+          options = {};
+        }
+        //prepare options
+        wakOptions.skip = options.start = typeof options.start === 'undefined' ? (this.$query ? this.$query.start : 0) : options.start;
+        wakOptions.top = options.pageSize = typeof options.pageSize === 'undefined' ? (this.$query ? this.$query.pageSize : DEFAULT_PAGESIZE_NESTED_COLLECTIONS) : options.pageSize;
+        //update $fetching ($apply needed)
+        rootScopeSafeApply(function() {
+          that.$fetching = true;
+        });
+//        wakOptions.method = 'subentityset';
+//        wakOptions.forceReload = true;
+        wakOptions.onSuccess = function(e){
+          console.log('$fetchOnNestedCollection > onSuccess','e',e);
+          rootScopeSafeApply(function(){
+//            console.group('$fetchOnNestedCollection > onSuccess','e',e);
+            if(mode === 'replace'){
+              that.length = 0;
+            }
+            e.entityCollection.forEach({
+              onSuccess : function(item){
+                rootScopeSafeApply(function(){
+                  console.log(item.position,item.entity,that.$_collection.relEntityCollection.getDataClass());
+                  that.push(that.$_collection.relEntityCollection.getDataClass().$create(item.entity));
+                });
+              },
+              atTheEnd: function(e){
+                console.log('atTheEnd','e',e);
+              },
+              //@todo not always passed
+              first : wakOptions.skip,
+              limit : wakOptions.skip + wakOptions.top
+            });
+//            console.groupEnd();
+            //remove the deferred pointer to show that the collection has been loaded anyway
+            delete that.$_deferred;
+            updateCollectionQueryInfos(that, options.pageSize, options.start);
+            that.$fetching = false;
+            deferred.resolve(that);
+          });
+        };
+        wakOptions.onError = function(event){
+          rootScopeSafeApply(function() {
+            console.error('$fetch (nestedEntities) ) > onError', event);
+            that.$fetching = false;
+            deferred.reject(event);
+          });
+        };
+        console.log('wakOptions',wakOptions);
+        that.$_collection.getValue(wakOptions);
+      }
+      return deferred.promise;
     };
     
     var $fetchOnNestedDeferredCollection = function(){
@@ -607,7 +738,7 @@ wakConnectorModule.factory('wakConnectorService', ['$q', '$rootScope', '$http', 
       if (options.params) {
         wakOptions.params = options.params;
       }
-      console.log(wakOptions);
+//      console.log(wakOptions);
       //prepare the promise
       deferred = $q.defer();
       var that = this;
@@ -617,7 +748,7 @@ wakConnectorModule.factory('wakConnectorService', ['$q', '$rootScope', '$http', 
       });
       wakOptions.onSuccess = function(event) {
         rootScopeSafeApply(function() {
-          console.log('onSuccess', 'originalEvent', event);
+//          console.log('onSuccess', 'originalEvent', event);
           transform.fetchEventToNgWakEntityCollection(event);
           if(mode === 'replace'){
             that.length = 0;
@@ -627,19 +758,19 @@ wakConnectorModule.factory('wakConnectorService', ['$q', '$rootScope', '$http', 
           }
           else if(mode === 'append'){
             for(var i=0; i<event.result.length; i++){
-              console.log(event.result[i]);
+//              console.log(event.result[i]);
               that.push(event.result[i]);
             }
           }
           updateQueryInfos(that, options.pageSize || that.$_collection._private.pageSize, skip);
-          console.log('onSuccess', 'processedEvent', event);
+//          console.log('onSuccess', 'processedEvent', event);
           that.$fetching = false;
           deferred.resolve(event);
         });
       };
       wakOptions.onError = function(event) {
         rootScopeSafeApply(function() {
-          console.error('onError', event);
+          console.error('$fetch > getEntities > onError', event);
           that.$fetching = false;
           deferred.reject(event);
         });
@@ -769,7 +900,7 @@ wakConnectorModule.factory('wakConnectorService', ['$q', '$rootScope', '$http', 
       var deferred, wakOptions = {}, query = null, onlyOne, result;
       //input check
       if (!options || typeof options !== "object") {
-        throw new Error("Please pass an object as options");
+        options = {};
       }
       //prepare options
       if (options.select) {
@@ -805,23 +936,23 @@ wakConnectorModule.factory('wakConnectorService', ['$q', '$rootScope', '$http', 
       rootScopeSafeApply(function() {
         result.$fetching = true;
       });
-      console.log('RESULT',result);
+//      console.log('RESULT',result);
       wakOptions.onSuccess = function(event) {
         rootScopeSafeApply(function() {
-          console.log('onSuccess', 'originalEvent', event);
+//          console.log('onSuccess', 'originalEvent', event);
           transform.queryEventToNgWakEntityCollection(event, onlyOne);
           transform.asyncResult(event.result, result, deferred.promise);
           if(onlyOne === false){
             updateQueryInfos(result, result.$_collection._private.pageSize, 0, query);
           }
-          console.log('onSuccess', 'processedEvent', event, result.$_collection ? result.$_collection : result.$_entity);
+//          console.log('onSuccess', 'processedEvent', event, result.$_collection ? result.$_collection : result.$_entity);
           result.$fetching = false;
           deferred.resolve(event);
         });
       };
       wakOptions.onError = function(event) {
         rootScopeSafeApply(function() {
-          console.error('onError', event);
+          console.error('$find > query > onError', event);
           result.$fetching = false;
           deferred.reject(event);
         });
@@ -832,11 +963,11 @@ wakConnectorModule.factory('wakConnectorService', ['$q', '$rootScope', '$http', 
       return result;
     };
 
-    var $$findOne = function(id){
-      return this.$find({
-        filter:'ID = '+id,
-        onlyOne : true
-      });
+    var $$findOne = function(id,options){
+      options = typeof options === 'undefined' ? {} : options;
+      options.filter = 'ID = '+id;
+      options.onlyOne = true;
+      return this.$find(options);
     };
 
     /** Code organization, heritage, objects used (todo : split this into multiple files which should be insject by dependency injection OR module) */
@@ -887,30 +1018,45 @@ wakConnectorModule.factory('wakConnectorService', ['$q', '$rootScope', '$http', 
         console.groupEnd();
       },
       $syncPojoToEntity : function(){
-        var pojo = this, key;
+        console.group('$syncPojoToEntity');
+        var pojo = this, key, infos, info;
         if(pojo.$_entity && pojo.$_entity._private && pojo.$_entity._private.values){
           for(key in pojo.$_entity._private.values){
             //only update modified values which are not related entities
             if(pojo.$_entity[key].getValue() !== pojo[key] && (pojo.$_entity[key] instanceof WAF.EntityAttributeSimple)){
               pojo.$_entity[key].setValue(pojo[key]);
             }
+            //@todo to sync related attributes (it's a start)
+//            //update attribute related (only if is loaded for the moment)
+//            if((pojo.$_entity[key] instanceof WAF.EntityAttributeRelated) && pojo[key].$isLoaded()){
+//              console.log('related',key,'pojo.$_entity[key]',pojo.$_entity[key],'pojo[key]',pojo[key]);
+//              console.log('$_entity',pojo.$_entity[key].getValue(),'pojo',pojo[key]);
+//              console.log(pojo.$_entity[key].relEntity.getDataClass().$attr());
+//              infos = pojo.$_entity[key].relEntity.getDataClass().$attr();
+//              //find the id field's name
+//              for(info in infos){
+//                if(infos[info].identifying === true){
+//                  console.log(info,'pojo',pojo[key][info],'$_entity',pojo.$_entity[key][info]);
+//                }
+//              }
+//            }
           }
         }
-        console.log("$syncPojoToEntity (should it be public ?)");
+        console.groupEnd();
       },
       //@todo toutes variable n'atant pas object remonte
       $syncEntityToPojo : function(){
         var pojo = this, key;
         if(pojo.$_entity && pojo.$_entity._private && pojo.$_entity._private.values){
           for(key in pojo.$_entity._private.values){
-            console.log(key,pojo.$_entity._private.values[key]);
+//            console.log(key,pojo.$_entity._private.values[key]);
             //only update modified values which are not related entities
             if(pojo.$_entity[key].getValue() !== pojo[key] && (pojo.$_entity[key] instanceof WAF.EntityAttributeSimple)){
               pojo[key] = pojo.$_entity[key].getValue();
             }
           }
         }
-        console.log("$syncEntityToPojo (should it be public ?)");
+//        console.log("$syncEntityToPojo (should it be public ?)");
       },
       /**
        * If entity not loaded, fetched is from the server with the $_deferred.uri
