@@ -6,7 +6,7 @@ function Controller($scope, wakConnectorService) {
     wakConnectorService.init().then(function oninit(ds) {
 
         // feed the angular scope with the stored data of the Country DataClass
-        $scope.countries = ds.Country.$find({});
+        $scope.countries = ds.Country.$find();
         
         // manage when a country is choosen
         $scope.$watch('country', function fetchRelatedCompanies(country) {
@@ -16,6 +16,7 @@ function Controller($scope, wakConnectorService) {
 
         });
 
+        
         // hack to get alias attribute available
         $scope.$watch('company', function fetchShowCompany(company) {
             if (!company) return;
@@ -24,6 +25,7 @@ function Controller($scope, wakConnectorService) {
             console.log('manually add the managerName value from internal properties');
             company.managerName = company.$_entity.managerName.value;
         });
+        
 
     });
 
