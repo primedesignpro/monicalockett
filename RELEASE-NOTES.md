@@ -2,7 +2,12 @@
 
 ##NG-Wakanda-Pack##
 
-This pre-version of the Angular-Wakanda Pack is based on alpha releases of Angular-Wakanda which notes are available in the next section.
+This pre-version of the [NG-Wakanda Pack](https://github.com/AMorgaut/NG-Wakanda-Pack) is based on alpha releases of **Angular-Wakanda** which notes are available in the next section.
+
+###v0.3.0
+
+* update to angular-wakanda version 0.2.0
+* remove alternative code required for previous versions
 
 ###v0.2.6
 
@@ -18,7 +23,26 @@ This pre-version of the Angular-Wakanda Pack is based on alpha releases of Angul
 
 Understand this module is still under development and the current releases are alpha versions.
 
-The versions provided can be unstable, the features may not be finished. This document notes may not be completly accurate.
+The versions provided can be unstable, the features may not be finished. I'll try to keep this document up to date (it may not be completly accurate).
+
+###v0.2.0
+* added directory API support
+* modified a little folder organization of the connector (now sources are in `src` folder)
+* setup e2e test environnement with protractor
+* setup first draft of tests on basic features + tests helpers
+* setup publishing tool
+
+###v0.1.1
+* nestedCollections :
+	* added $totalCount
+	* better $query
+	* $fetch more stable
+	* added $more, $nextPage, $prevPage
+
+###v0.1.0
+* $find accepts empty params
+* refactored $fetch on nested collections (still under dev)
+* $findOne(id,options) - added options param (like in $find)
 
 ###v0.0.11
 
