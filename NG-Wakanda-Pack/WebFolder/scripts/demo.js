@@ -11,14 +11,17 @@ function PlayController($scope, wakConnectorService) {
 
 function PlayControllerReady($scope, ds) {
     
-	var ds, relation, parent;
+	var ds, relation, parent, collection, current, filter;
 
 
 	relation = {Country: 'Company', Company: 'Employee'};
 	parent = {Employee: 'Company', Company: 'Country'};
+	collection = {Company: 'companies', Employee: 'employees'};
+	current = {};
+	filter = {};
 
-    $scope.current = {};
-    $scope.filter = {};
+    $scope.current = current;
+    $scope.filter = filter;
     $scope.relationLoader = {Country: loadCountries, Company: loadCompanies, Employee: loadEmployees};
 
     $scope.switchCurrentEntity = function switchCurrentEntity(source, current) {
@@ -26,10 +29,17 @@ function PlayControllerReady($scope, ds) {
             $scope.current[source].selected = false;
         }
         $scope.current[source] = current;
-        current.selected = true;
+        if (current) {
+            current.selected = true;
+        }
         // autoload related entities
         if (source in relation) {
-            $scope.relationLoader[relation[source]](current);
+            if (current) {
+                $scope.relationLoader[relation[source]](current);
+            } else {
+               $scope[collection[relation[source]]] = [];
+               $scope.switchCurrentEntity(relation[source], null);
+            }
         }
     }
     
@@ -48,9 +58,24 @@ function PlayControllerReady($scope, ds) {
         }
         return {filter: filter.join(' AND ')};
     }
+    /*
+    $scope.watch('countries', function (countries) {
+        filter.Country = '';
+        current.country = countries[0];
+        current.country.companies.$fetch();
+    });
     
+    $scope.watch('companies', function (companies) {
+        filter.Company = '';
+        current.company = companies[0];
+        current.company.employees.$fetch();
+    });
 
-
+    $scope.watch('employees', function (employees) {
+        filter.Employee = '';
+        current.employee = employees[0];
+    });
+*/
     function loadCountries(ignore, filter) {
         filter = formatFilter(filter);
         $scope.countries = ds.Country.$find(filter);
@@ -75,5 +100,8 @@ function PlayControllerReady($scope, ds) {
         });
     }
 
+
+
     loadCountries();
+    
 }
