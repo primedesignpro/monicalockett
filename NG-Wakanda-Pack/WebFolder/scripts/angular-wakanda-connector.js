@@ -604,13 +604,28 @@ wakConnectorModule.factory('wakConnectorService', ['$q', '$rootScope', '$http', 
         if(!options){
           options = {};
         }
+        //options checking
+        if (typeof options.orderBy !== 'undefined') {
+          console.warn("orderBy can't be change on a $fetch (nested query collection's cached on server side in some way)");
+        }
+        if (typeof options.select !== 'undefined') {
+          console.warn("select can't be change on a $fetch (query collection's cached on server side in some way)");
+        }
         //prepare options
         wakOptions.skip = options.start = typeof options.start === 'undefined' ? (this.$query ? this.$query.start : 0) : options.start;
         wakOptions.top = options.pageSize = typeof options.pageSize === 'undefined' ? (this.$query ? this.$query.pageSize : DEFAULT_PAGESIZE_NESTED_COLLECTIONS) : options.pageSize;
+        //prepare unhandled options @warn
+        if (options.select) {
+          wakOptions.autoExpand = options.select;
+        }
+        if (options.orderBy) {
+          wakOptions.orderby = options.orderBy;
+        }
         //update $fetching ($apply needed)
         rootScopeSafeApply(function() {
           that.$fetching = true;
         });
+        console.log('>$fetch on nestedCollection','options',options);
 //        wakOptions.method = 'subentityset';
 //        wakOptions.forceReload = true;
         wakOptions.onSuccess = function(e){
@@ -1130,12 +1145,124 @@ wakConnectorModule.factory('wakConnectorService', ['$q', '$rootScope', '$http', 
     };
     
     var NgWakEntityAbstract = Class.extend(NgWakEntityAbstractPrototype);
+    
+    /** directory */
+    
+    /**
+     * Returns a promise :
+     * - success : in param an object like {result : true} if ok - {result : false} if ko
+     * - error : if the request had a problem
+     * @param {string} login
+     * @param {string} password
+     * @returns {deferred.promise}
+     */
+    var directoryLoginByPassword = function(login, password){
+      var deferred, wakOptions = {};
+      //prepare the promise
+      deferred = $q.defer();
+      
+      wakOptions.onSuccess = function(event){
+          deferred.resolve({result : event.result});
+      };
+      wakOptions.onError = function(event){
+        deferred.reject(event);
+      };
+      
+      WAF.directory.loginByPassword(login,password,wakOptions);
+      
+      return deferred.promise;
+    };
+    
+    
+    /**
+     * Returns a promise :
+     * - success : in param an object like {result : currentUserInfos} if ok
+     * - error : if the request had a problem
+     * @param {string} login
+     * @param {string} password
+     * @returns {deferred.promise}
+     */
+    var directoryCurrentUser = function(){
+      var deferred, wakOptions = {};
+      //prepare the promise
+      deferred = $q.defer();
+      
+      wakOptions.onSuccess = function(event){
+        deferred.resolve({result : event.result});
+      };
+      wakOptions.onError = function(event){
+        deferred.reject(event);
+      };
+      
+      WAF.directory.currentUser(wakOptions);
+      
+      return deferred.promise;
+    };
+    
+    
+    
+    /**
+     * Returns a promise :
+     * - success : in param an object like {result : true} if ok - {result : false} if ko
+     * - error : if the request had a problem
+     * @param {string} login
+     * @param {string} password
+     * @returns {deferred.promise}
+     */
+    var directoryLogout = function(){
+      var deferred, wakOptions = {};
+      //prepare the promise
+      deferred = $q.defer();
+      
+      wakOptions.onSuccess = function(event){
+        deferred.resolve({result : event.result});
+      };
+      wakOptions.onError = function(event){
+        console.error('>logout',event);
+        deferred.reject(event);
+      };
+      
+      WAF.directory.logout(wakOptions);
+      
+      return deferred.promise;
+    };
+    
+    
+    /**
+     * Returns a promise :
+     * - success : in param an object like {result : true} if ok - {result : false} if ko
+     * - error : if the request had a problem
+     * @param {string} login
+     * @param {string} password
+     * @returns {deferred.promise}
+     */
+    var directoryCurrentUserBelongsTo = function(groupName){
+      var deferred, wakOptions = {};
+      //prepare the promise
+      deferred = $q.defer();
+      
+      wakOptions.onSuccess = function(event){
+        deferred.resolve({result : event.result});
+      };
+      wakOptions.onError = function(event){
+        deferred.reject(event);
+      };
+      
+      WAF.directory.currentUserBelongsTo(groupName,wakOptions);
+      
+      return deferred.promise;
+    };
 
     /** returned object */
 
     return {
       init: init,
-      getDatastore: getDatastore
+      getDatastore: getDatastore,
+      $login : directoryLoginByPassword,
+      $loginByPassword : directoryLoginByPassword,
+      $currentUser : directoryCurrentUser,
+      $logout : directoryLogout,
+      $currentUserBelongsTo : directoryCurrentUserBelongsTo
     };
 
   }]);
