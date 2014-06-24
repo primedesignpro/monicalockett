@@ -1,13 +1,24 @@
 #Release Notes#
 
+This Document include release notes of:
+
+* The current [NG-Wakanda-Pack](#ng-wakanda-pack)
+* The embedded [angular-wakanda](#angular-wakanda-alpha-release-notes) connector service module
+
 ##NG-Wakanda-Pack##
 
 This pre-version of the [NG-Wakanda Pack](https://github.com/AMorgaut/NG-Wakanda-Pack) is based on alpha releases of **Angular-Wakanda** which notes are available in the next section.
+
+###v0.4.0
+
+* update to angular-wakanda version 0.3.0
+* update related tutorial steps and demos
 
 ###v0.3.0
 
 * update to angular-wakanda version 0.2.0
 * remove alternative code required for previous versions
+* fix demo.js
 
 ###v0.2.6
 
@@ -24,6 +35,12 @@ This pre-version of the [NG-Wakanda Pack](https://github.com/AMorgaut/NG-Wakanda
 Understand this module is still under development and the current releases are alpha versions.
 
 The versions provided can be unstable, the features may not be finished. I'll try to keep this document up to date (it may not be completly accurate).
+
+###v0.3.0
+* changed filename from `angular-wakanda-connector.*` to `angular-wakanda.*`
+* changed module name from `wakConnectorModule` to `wakanda`
+* changed service name from `wakConnectorService` to `$wakanda`
+* adapted build and test routines to new names and paths
 
 ###v0.2.0
 * added directory API support

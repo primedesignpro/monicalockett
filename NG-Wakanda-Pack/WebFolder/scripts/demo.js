@@ -1,10 +1,10 @@
 'use strict';
 
-angular.module('playAngular', ['wakConnectorModule']);
+angular.module('playAngular', ['wakanda']);
 
 
-function PlayController($scope, wakConnectorService) {
-	wakConnectorService.init('Country,Company,Employee').then(function oninit(ds) {
+function PlayController($scope, $wakanda) {
+	$wakanda.init('Country,Company,Employee').then(function oninit(ds) {
 	    PlayControllerReady($scope, ds);
 	});
 }

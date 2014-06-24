@@ -1,9 +1,9 @@
 'use strict';
 
-angular.module('todo', ['wakConnectorModule']);
+angular.module('todo', ['wakanda']);
 
-function Todo($scope, wakConnectorService) {
-  wakConnectorService.init('Item').then(function (ds) {
+function Todo($scope, $wakanda) {
+  $wakanda.init('Item').then(function (ds) {
 
       $scope.items = ds.Item.$find({});
         

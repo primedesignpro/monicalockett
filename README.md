@@ -10,7 +10,7 @@ See it running live at [http://ng-wakanda-pack.waktest.com](http://ng-wakanda-pa
 
 ###Angular-Wakanda###
 
-[Angular-Wakanda](http://wakanda.org/angularjs) is aimed to let you build [AngularJS](http://angularjs.com) expressive interfaces linked to your REST provided [Wakanda](http://wakanda.org) Application Model.
+**angular-wakanda** is aimed to let you build [AngularJS](http://angularjs.com) expressive interfaces linked to your REST provided [Wakanda](http://wakanda.org) Application Model.
 
 ###NG-Wakanda-Pack###
 

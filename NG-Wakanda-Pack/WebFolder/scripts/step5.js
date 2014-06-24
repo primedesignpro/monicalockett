@@ -1,11 +1,11 @@
-﻿angular.module('step5', ['wakConnectorModule']);
+﻿angular.module('step5', ['wakanda']);
 
-function Controller($scope, wakConnectorService) {
+function Controller($scope, $wakanda) {
 
     // Create a proxy of the server model
-    wakConnectorService.init().then(function oninit(ds) {
+    $wakanda.init().then(function oninit(ds) {
 
-        $scope.employees = ds.Employee.$find({});
+        $scope.employees = ds.Employee.$find();
 
     });
 

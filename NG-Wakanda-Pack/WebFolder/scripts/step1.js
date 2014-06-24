@@ -1,7 +1,7 @@
-﻿angular.module('step1', ['wakConnectorModule']);
+﻿angular.module('step1', ['wakanda']);
 
-function Controller($scope, wakConnectorService) {
+function Controller($scope, $wakanda) {
 
-    $scope.loaded = !!wakConnectorService ? 'loaded' : 'not loaded';
+    $scope.loaded = !!$wakanda ? 'loaded' : 'not loaded';
 
 }

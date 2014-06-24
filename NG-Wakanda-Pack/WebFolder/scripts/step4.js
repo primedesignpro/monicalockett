@@ -1,9 +1,9 @@
-﻿angular.module('step4', ['wakConnectorModule']);
+﻿angular.module('step4', ['wakanda']);
 
-function Controller($scope, wakConnectorService) {
+function Controller($scope, $wakanda) {
 
     // Create a proxy of the server model
-    wakConnectorService.init().then(function oninit(ds) {
+    $wakanda.init().then(function oninit(ds) {
 
         // feed the angular scope with the stored data of the Country DataClass
         $scope.countries = ds.Country.$find();
