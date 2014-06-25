@@ -2,10 +2,13 @@
 
 This Document include release notes of:
 
-* The current [NG-Wakanda-Pack](#ng-wakanda-pack)
-* The embedded [angular-wakanda](#angular-wakanda-alpha-release-notes) connector service module
+* [The current NG-Wakanda-Pack release notes](#ng-wakanda-pack-release-notes)
+* [The embedded angular-wakanda connector service module release notes](#angular-wakanda-release-notes)
 
-##NG-Wakanda-Pack##
+The embedded version of the angular-wakanda connector service module release notes only contains updates with impacts on the package. The original version include more notes regarding internal untit tests.
+
+
+##NG-Wakanda-Pack Release Notes##
 
 This pre-version of the [NG-Wakanda Pack](https://github.com/AMorgaut/NG-Wakanda-Pack) is based on alpha releases of **Angular-Wakanda** which notes are available in the next section.
 
@@ -36,7 +39,7 @@ This pre-version of the [NG-Wakanda Pack](https://github.com/AMorgaut/NG-Wakanda
 * update to angular-wakanda version 0.0.10
 * remove alternative code required for previous versions
 
-##Angular-Wakanda alpha release notes##
+##Angular-Wakanda  Release Notes##
 
 Understand this module is still under development and the current releases are alpha versions.
 
@@ -46,14 +49,9 @@ The versions provided can be unstable, the features may not be finished. I'll tr
 * changed filename from `angular-wakanda-connector.*` to `angular-wakanda.*`
 * changed module name from `wakConnectorModule` to `wakanda`
 * changed service name from `wakConnectorService` to `$wakanda`
-* adapted build and test routines to new names and paths
 
 ###v0.2.0
 * added directory API support
-* modified a little folder organization of the connector (now sources are in `src` folder)
-* setup e2e test environnement with protractor
-* setup first draft of tests on basic features + tests helpers
-* setup publishing tool
 
 ###v0.1.1
 * nestedCollections :
