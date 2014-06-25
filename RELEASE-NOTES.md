@@ -9,6 +9,12 @@ This Document include release notes of:
 
 This pre-version of the [NG-Wakanda Pack](https://github.com/AMorgaut/NG-Wakanda-Pack) is based on alpha releases of **Angular-Wakanda** which notes are available in the next section.
 
+###v0.4.1
+
+* Switch the Model definiton of Country/Company/Employee in SSJS indtead of JSON  
+* Update the main tutorial to show the new Dataclass source files and new tabs for calculated attributes
+* Update the angular-wakanda API Documentation
+
 ###v0.4.0
 
 * update to angular-wakanda version 0.3.0
