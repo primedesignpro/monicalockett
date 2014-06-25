@@ -1,1 +1,0 @@
-﻿angular.module('playIosAngular', ['wakConnectorModule']);function PlayIosController($scope, wakConnectorService) {    // Create a proxy of the server model    wakConnectorService.init().then(function oninit(ds) {	        $scope.countries = ds.Country.$find({});    });}
