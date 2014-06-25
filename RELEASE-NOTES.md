@@ -12,6 +12,11 @@ The embedded version of the angular-wakanda connector service module release not
 
 This pre-version of the [NG-Wakanda Pack](https://github.com/AMorgaut/NG-Wakanda-Pack) is based on alpha releases of **Angular-Wakanda** which notes are available in the next section.
 
+###v0.4.2
+
+* Project structure update
+* Removal of the ios demo (in favor to a future better one)
+
 ###v0.4.1
 
 * Switch the Model definiton of Country/Company/Employee in SSJS indtead of JSON  
