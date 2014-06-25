@@ -24,6 +24,7 @@
     <div ng-show="employee">
       <strong>Name</strong>: {{employee.fullName}}<br>
       <strong>Title</strong>: {{employee.title}}<br>
+      <strong>Age</strong>: {{employee.age}}<br>
       <strong>Salary</strong>: <input ng-model="employee.salary" /><br>
       <input type="button" value="save" ng-click="employee.$save()">
     </div>
