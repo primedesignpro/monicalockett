@@ -33,7 +33,7 @@ bower install angular-wakanda
 
 The next step, as for any angular module, is to be sure to load the Wakanda connector service (currently called `wakConnectorModule`)
 
-```javascriptangular.module('MyApp', ['wakConnectorModule']);```
+```javascriptangular.module('MyApp', ['wakanda']);```
 
 #### init()
 
@@ -57,6 +57,9 @@ $wakanda.getDatastore();
 
 The developer can have an already fulfilled service by adding a resolve function in it's routeProvider.
 
+**Note:**
+
+*Even if you are going to query for data from a single Dataclass only, because of alias and navigation attributes, you may have to load some related Dataclasses too.*
 
 
 ### getDataStore()
@@ -69,19 +72,19 @@ var Product = $wakanda.getDatastore().Product
 ```
 
 
-### login() / logout()
+### $login() / $logout()
 
-**TO BE DONE**
 
 To get the required permissions to use the Wakanda DataClass, it is often required to be authenticated. The Wakanda backend has a native directory and can handle custom authentications to custom or remote directories.
 
-**angular-wakanda** will expose a standard API to login and logout from the frontend.
+**angular-wakanda** expose a standard API to login and logout from the frontend.
 
 ```javascript
-// return a promise
-$wakanda.login(user, password);
-// return a promise
-$wakanda.logout();
+// return promises
+$wakanda.$login(user, password);
+$wakanda.$logout();
+$wakanda.$curentUser();
+$wakanda.$currentUserBelongsTo();
 ```
 
 see [Wakanda Directory](http://doc.wakanda.org/home2.en.html#/Directory/Index-of-methods-and-properties.902-814586.en.html)
@@ -145,7 +148,7 @@ $scope.people.$promise; // a promise is provided if needed
 
 // Wait for result before binding (need to transform result for example)
 var people = ds.Person.$find({limit: 10}, function() {
-	// people.length == 10;
+	// people.length === 10;
 	// modify people
 	$scope.people = people;
 });
@@ -257,7 +260,7 @@ When doing a fetch, if the `$totalCount` has changed, the property value is upda
 
 Contains the entityset id internally used to execute `$fetch()` calls
 
-### $fetching
+#### $fetching
 
 A boolean at true if the entity collection is currently fetching data.
 Is set to false after the http response (even if we get an error).
@@ -265,7 +268,7 @@ Is set to true when the entity collection is first created with `ds.Entity.$find
 
 Can be used to show a spinner
 
-### $fetch()
+#### $fetch()
 
 Retrieve entities from the server in the same entityset
 
@@ -424,13 +427,13 @@ The modifications are checked when the `$save()` method of the parent entity is 
 
 
 
-### $fetch()
+#### $fetch()
 
 Equivalent of the [Wakanda Framework `serverRefresh()` method](http://doc.wakanda.org/Datasource/Datasources/serverRefresh.301-607702.en.html) with `forceReload=true` on entities
 
 Is mostly used for deferred loading
 
-#### $fetch() on deferred objects
+##### $fetch() on deferred objects
 
 When a related attributes is not expanded in the initial query, the user must fetch it.
 
@@ -467,7 +470,7 @@ user must be able to specify which attributes to select
 think about a $dirty or $dirty() feature ($dirty is done with watch, optimised for high read/write, $dirty() is done with diff, optimised for high write/read)
 
 
-### $serverCompute()
+#### $serverCompute()
 
 Equivalent of the [Wakanda Framework `serverRefresh()` method](http://doc.wakanda.org/Datasource/Datasources/serverRefresh.301-607702.en.html) with `forceReload=false` on entities
 
@@ -479,7 +482,7 @@ firstProduct.$serverCompute();
 ```
 
 
-### $remove()
+#### $remove()
 
 
 ```javascript
@@ -556,12 +559,12 @@ employee.photo.$upload(file).then(…);
 Based on the catalog and dataclass metadatas, for each dataclass, `{EntityName}Entity` and `{EntityName}Collection` classes are generated.
 
 * They have all user defined methods on their prototype
-* They extends the `NgWakEntity` and `NgWakCollection` prototypes using a strict inheritance. `{EntityName}Entity` has a `__proto__` property pointing to `NgWakEntity.prototype`, we do not copy the NgWakEntity.prototype methods to the `{EntityName}Entity` prototype. 
-* They must have a $dataClass property pointing to wakandaService.getDatastore()[{EntityName}]
+* They extends the `NgWakEntity` and `NgWakCollection` prototypes using a strict inheritance. `{EntityName}Entity` has a `__proto__` property pointing to `NgWakEntity.prototype`.
+* They have a $dataClass property pointing to `ds[{EntityName}]` where `ds` is received by the Promise callback of either `$wakanda.getDatastore()` or `$wakanda.init()`.
 
 ### Public exposure of prototypes
 
-In order to allow the developer to customize it's entity (override framework methods for all entities or only for a specific one or add client side methods), all prototypes are exposed.
+To be abble to extend the `NgWafEntity` API (override framework methods for all entities or only for a specific one or add client side methods), all prototypes are exposed.
 
 The generic one :
 
@@ -595,6 +598,7 @@ This include nested pojos (company of a person for example). This impact for exa
 One can write :
 
 ```javascript
+me = ds.Person.$findOne({filter: 'name = ' + myname});
 me.company.$save();
 me.company.companyUserDefinedMethod();
 me.$save();
