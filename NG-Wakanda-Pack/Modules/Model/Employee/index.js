@@ -1,5 +1,5 @@
 ﻿// Modules/Model/Employee/index.js
-var Employee = module.exports = new DataClass('Employee', 'Employees');
+var Employee = module.exports = new DataClass('Employees');
 
 Employee.ID = new Attribute('storage', 'long', 'key auto');
 
@@ -11,10 +11,10 @@ Employee.age = require('./age'); // calculated attribute defined in its own modu
 Employee.company = new Attribute('relatedEntity', 'Company', 'Company');
 Employee.companyName = new Attribute('alias', 'string', 'company.name');
 Employee.manager = new Attribute('relatedEntity', 'Employee', 'Employee');
-Employee.staff = new Attribute('relatedEntities', 'Employee', 'manager', {reversePath: true});
+Employee.staff = new Attribute('relatedEntities', 'Employees', 'manager', {reversePath: true});
 Employee.country = new Attribute('alias', 'string', 'company.countryName');
 Employee.salary = new Attribute('storage', 'number');
-Employee.managedCompanies = new Attribute('relatedEntities', 'Company', 'manager', {reversePath: true});
+Employee.managedCompanies = new Attribute('relatedEntities', 'Companies', 'manager', {reversePath: true});
 Employee.title = new Attribute('storage', 'string');
 Employee.gender = new Attribute('storage', 'string');
 Employee.photo = new Attribute('storage', 'image');
