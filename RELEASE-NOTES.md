@@ -12,7 +12,7 @@ The embedded version of the angular-wakanda connector service module release not
 
 This pre-version of the [NG-Wakanda Pack](https://github.com/AMorgaut/NG-Wakanda-Pack) is based on alpha releases of **Angular-Wakanda** which notes are available in the next section.
 
-###v0.4.4
+###[v0.4.4](https://github.com/AMorgaut/NG-Wakanda-Pack/releases/tag/v0.4.4)
 
 * Project structure update
 * Removal of the ios demo (in favor to a future better one)
@@ -22,18 +22,18 @@ This pre-version of the [NG-Wakanda Pack](https://github.com/AMorgaut/NG-Wakanda
 * update to angular-wakanda version 0.3.0
 * update related tutorial steps and demos
 
-###v0.3.0
+###[v0.3.0](https://github.com/AMorgaut/NG-Wakanda-Pack/releases/tag/v0.3.0)
 
 * update to angular-wakanda version 0.2.0
 * remove alternative code required for previous versions
 * fix demo.js
 
-###v0.2.6
+###[v0.2.6](https://github.com/AMorgaut/NG-Wakanda-Pack/releases/tag/v0.2.6)
 
 * update to angular-wakanda version 0.0.11
 * remove alternative code required for previous versions
 
-###v0.2.5
+###[v0.2.5](https://github.com/AMorgaut/NG-Wakanda-Pack/releases/tag/v0.2.5)
 
 * update to angular-wakanda version 0.0.10
 * remove alternative code required for previous versions

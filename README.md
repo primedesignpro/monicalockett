@@ -1,10 +1,10 @@
 #Your Angular-Wakanda Dev Pack#
 
-See it running live at [http://ng-wakanda-pack.waktest.com](http://ng-wakanda-pack.waktest.com)
+See it running live at [http://ng-wakanda-pack.us.wak-apps.com/](http://ng-wakanda-pack.us.wak-apps.com/)
 
 ##Warning##
 
-**Angular-Wakanda** is not yet available in stable nor beta version. The versions which are in this pack are very early versions which do not implement the final API shown in the examples (the previews often use a temporary API)
+**Angular-Wakanda** is not yet available in stable version. The versions which are in this pack are early versions which do not implement all the final API shown in the examples (the previews occasionnaly use a temporary API)
 
 ##About##
 
