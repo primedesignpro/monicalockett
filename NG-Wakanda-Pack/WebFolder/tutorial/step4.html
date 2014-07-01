@@ -15,7 +15,7 @@
 
   <section ng-controller="Controller">
     <p>
-      {{countries.length}} countries found:
+      {{countries.$totalCount}} countries found:
       <select ng-model="country" ng-options="c.name for c in countries">
         <option value="">-- select a country to see its related companies --</option>
       </select>
@@ -23,7 +23,7 @@
     <div ng-show="country">
       <p>Its country code is <strong>{{country.code}}</strong></p>
       <p>
-        {{country.companies.length}} companies are located there:
+        {{country.companies.$totalCount}} companies are located there:
         <select ng-model="company" ng-options="c.name for c in country.companies">
           <option value="">-- select a company to see its details --</option>
         </select>

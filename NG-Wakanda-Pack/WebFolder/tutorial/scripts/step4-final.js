@@ -15,6 +15,6 @@ function Controller($scope, $wakanda) {
         if (!country) return;
         // get companies related to current country
         country.companies.$fetch();
-    }
+    });
 
 }

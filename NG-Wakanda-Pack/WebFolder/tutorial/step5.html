@@ -16,7 +16,7 @@
   <section ng-controller="Controller">
     <img ng-show="employee" ng-src="{{employee.photo.src}}" style="float:right;width:80px; height:120px;">
     <p>
-      {{employees.length}} employees found:
+      {{employees.$totalCount}} employees found:
       <select ng-model="employee" ng-options="emp.fullName for emp in employees">
         <option value="">-- select an employee to change its salary --</option>
       </select>

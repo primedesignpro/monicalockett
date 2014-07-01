@@ -15,7 +15,7 @@
 
   <section ng-controller="Controller">
     <p>
-      {{countries.length}} countries found:
+      {{countries.$totalCount}} countries found:
       <select ng-model="country" ng-options="c.name for c in countries">
         <option value="">-- Select a country to view its details --</option>
       </select>

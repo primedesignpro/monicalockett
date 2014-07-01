@@ -10,7 +10,7 @@ The embedded version of the angular-wakanda connector service module release not
 
 ##NG-Wakanda-Pack Release Notes##
 
-This pre-version of the [NG-Wakanda Pack](https://github.com/AMorgaut/NG-Wakanda-Pack) is based on alpha releases of **Angular-Wakanda** which notes are available in the next section.
+This pre-version of the [NG-Wakanda Pack](https://github.com/AMorgaut/NG-Wakanda-Pack) is based on alpha releases of **angular-wakanda** which notes are available in the next section.
 
 ###[v0.4.4](https://github.com/AMorgaut/NG-Wakanda-Pack/releases/tag/v0.4.4)
 
@@ -19,23 +19,23 @@ This pre-version of the [NG-Wakanda Pack](https://github.com/AMorgaut/NG-Wakanda
 * Switch the Model definiton of Country/Company/Employee in SSJS indtead of JSON  
 * Update the main tutorial to show the new Dataclass source files and new tabs for calculated attributes
 * Update the angular-wakanda API Documentation
-* update to angular-wakanda version 0.3.0
+* update to **angular-wakanda version 0.3.0**
 * update related tutorial steps and demos
 
 ###[v0.3.0](https://github.com/AMorgaut/NG-Wakanda-Pack/releases/tag/v0.3.0)
 
-* update to angular-wakanda version 0.2.0
+* update to **angular-wakanda version 0.2.0**
 * remove alternative code required for previous versions
 * fix demo.js
 
 ###[v0.2.6](https://github.com/AMorgaut/NG-Wakanda-Pack/releases/tag/v0.2.6)
 
-* update to angular-wakanda version 0.0.11
+* update to **angular-wakanda version 0.0.11**
 * remove alternative code required for previous versions
 
 ###[v0.2.5](https://github.com/AMorgaut/NG-Wakanda-Pack/releases/tag/v0.2.5)
 
-* update to angular-wakanda version 0.0.10
+* update to **angular-wakanda version 0.0.10**
 * remove alternative code required for previous versions
 
 ##Angular-Wakanda  Release Notes##
@@ -50,39 +50,39 @@ The versions provided can be unstable, the features may not be finished. I'll tr
 * changed service name from `wakConnectorService` to `$wakanda`
 
 ###v0.2.0
-* added directory API support
+* added **directory API** support
 
 ###v0.1.1
 * nestedCollections :
-	* added $totalCount
-	* better $query
-	* $fetch more stable
-	* added $more, $nextPage, $prevPage
+	* added `$totalCount`
+	* better `$query()`
+	* `$fetch()` more stable
+	* added `$more()`, `$nextPage()`, `$prevPage()`
 
 ###v0.1.0
-* $find accepts empty params
-* refactored $fetch on nested collections (still under dev)
-* $findOne(id,options) - added options param (like in $find)
+* `$find()` accepts empty params
+* refactored `$fetch()` on nested collections (still under dev)
+* `$findOne(id, options)` - added `options` param (like in `$find()`)
 
 ###v0.0.11
 
-* added $fetch, $toJSON, $isLoaded on nested collection
-* integrated patch on error between null and $_deferred (undefined)
+* added `$fetch()`, `$toJSON()`, $isLoaded on nested collection
+* integrated patch on error between null and `$_deferred` (undefined)
 
 ###v0.0.10
 
-* fixed another "Converting circular structure to JSON" bug in .$toJSON() method
+* fixed another "Converting circular structure to JSON" bug in `.$toJSON()` method
 
 ###v0.0.9
 
-* fixed "Converting circular structure to JSON" bug in .$toJSON() method
+* fixed "Converting circular structure to JSON" bug in `.$toJSON()` method
 
 ###v0.0.8
 
-* $fetch on deferred entities (not yet on collections)
-* $isLoaded method (makes it easier to check if your entity/collection was fetched or not)
+* `$fetch()` on deferred entities (not yet on collections)
+* `$isLoaded()` method (makes it easier to check if your entity/collection was fetched or not)
 * user defined collection method at the root of your collection (not on the nested ones)
-* added .$toJSON() on entities and root collections (not yet on the nested ones)
+* added `.$toJSON()` on entities and root collections (not yet on the nested ones)
 
 ###v0.0.7
 
@@ -95,6 +95,6 @@ The versions provided can be unstable, the features may not be finished. I'll tr
 
 ###v0.0.5
 
-* added photo src retrieving support
+* added photo `src` retrieving support
 
 ###...
