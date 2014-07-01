@@ -1,4 +1,4 @@
-﻿angular.module('step4', ['wakanda']);
+﻿angular.module('step5', ['wakanda']);
 
 function Controller($scope, $wakanda) {
 

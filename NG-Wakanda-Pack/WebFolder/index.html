@@ -125,11 +125,11 @@
   <section>
     <table><tbody><tr>
       <td>
-        <h2>4 - Get related data out of the box</h2>
-        <p>No joins, no foreign keys, no map-reduce...</p>
-        <p>Get access to related data directly through your entity object properties</p>
-        <p>All you have to do is to tell angular-wakanda when you want to load it locally with this related property <strong><code>$fetch()</code></strong> method</p>
-        <script src="http://gist-it.appspot.com/github/AMorgaut/NG-Wakanda-Pack/blob/master/NG-Wakanda-Pack/WebFolder/tutorial/scripts/step4-final.js?slice=15:16&footer=minimal"></script>
+        <h2>4 - Get fast infinite scroll for free</h2>
+        <p>No need of manual paging or manual cache optimization...</p>
+        <p>angular-wakanda take advatange of the wakanda protocol native entityset cache to fetch big collection pages.</p>
+        <p>You can either use <strong><code>$more()</code></strong> method for infinite scroll or classic <strong><code>$previousPage()</code></strong> / <strong><code>$nextPage()</code></strong> method on dedicated buttons</p>
+        <script src="http://gist-it.appspot.com/github/AMorgaut/NG-Wakanda-Pack/blob/master/NG-Wakanda-Pack/WebFolder/tutorial/step4.html?slice=27:31&footer=minimal"></script>
         <p>Thanks to the Wakanda <a href="http://doc.wakanda.org/Attributes.300-574626.en.html" target="_blank"><strong>alias attributes</strong></a>, this example shows the company manager fullname without even fetching the related Manager</p>
       </td>
       <td>
@@ -160,10 +160,12 @@
   <section>
     <table><tbody><tr>
       <td>
-        <h2>5 - Modify your data</h2>
-        <p>Each Wakanda DataClass provides a <strong><code>$create()</code></strong> method</p>
-        <p>Each received Wakanda entities comes with its <strong><code>$save()</code></strong> and <strong><code>$remove()</code></strong> methods</p>
-        <script src="http://gist-it.appspot.com/github/AMorgaut/NG-Wakanda-Pack/blob/master/NG-Wakanda-Pack/WebFolder/tutorial/step5.html?slice=27:28&footer=minimal"></script>
+        <h2>5 - Get related data out of the box</h2>
+        <p>No joins, no foreign keys, no map-reduce...</p>
+        <p>Get access to related data directly through your entity object properties</p>
+        <p>All you have to do is to tell angular-wakanda when you want to load it locally with this related property <strong><code>$fetch()</code></strong> method</p>
+        <script src="http://gist-it.appspot.com/github/AMorgaut/NG-Wakanda-Pack/blob/master/NG-Wakanda-Pack/WebFolder/tutorial/scripts/step5-final.js?slice=15:16&footer=minimal"></script>
+        <p>Thanks to the Wakanda <a href="http://doc.wakanda.org/Attributes.300-574626.en.html" target="_blank"><strong>alias attributes</strong></a>, this example shows the company manager fullname without even fetching the related Manager</p>
       </td>
       <td>
         <div class="tabs">
@@ -171,18 +173,51 @@
   					<li><a href="#step5-preview">Preview</a></li>
   					<li><a href="#step5-JS">JS</a></li>
 		  		  <li><a href="#step5-HTML">HTML</a></li>
-		  		  <li><a href="#step5-Employee">Employee DataClass</a></li>
-		  		  <li><a href="#step5-fullName">fullName</a></li>
-		  		  <li><a href="#step5-age">age</a></li>
+		  		  <li><a href="#step5-Company">Company DataClass</a></li>
 				  </ul>
   				<div id="step5-preview">
             <iframe src="tutorial/step5.html"></iframe>
           </div>
   				<div id="step5-JS">
-            <script src="http://gist-it.appspot.com/github/AMorgaut/NG-Wakanda-Pack/blob/master/NG-Wakanda-Pack/WebFolder/tutorial/scripts/step5.js?footer=minimal"></script>
+            <script src="http://gist-it.appspot.com/github/AMorgaut/NG-Wakanda-Pack/blob/master/NG-Wakanda-Pack/WebFolder/tutorial/scripts/step5-final.js?footer=minimal"></script>
           </div>
 		  		<div id="step5-HTML">
             <script src="http://gist-it.appspot.com/github/AMorgaut/NG-Wakanda-Pack/blob/master/NG-Wakanda-Pack/WebFolder/tutorial/step5.html?footer=minimal"></script>
+          </div>
+  				<div id="step5-Company">
+            <script src="http://gist-it.appspot.com/github/AMorgaut/NG-Wakanda-Pack/blob/master/NG-Wakanda-Pack/Modules/Model/Company.js?footer=minimal"></script>
+          </div>
+        </div>
+      </td>
+    </tr></tbody></table>
+  </section>
+
+  <section>
+    <table><tbody><tr>
+      <td>
+        <h2>6 - Modify your data</h2>
+        <p>Each Wakanda DataClass provides a <strong><code>$create()</code></strong> method</p>
+        <p>Each received Wakanda entities comes with its <strong><code>$save()</code></strong> and <strong><code>$remove()</code></strong> methods</p>
+        <script src="http://gist-it.appspot.com/github/AMorgaut/NG-Wakanda-Pack/blob/master/NG-Wakanda-Pack/WebFolder/tutorial/step6.html?slice=27:28&footer=minimal"></script>
+      </td>
+      <td>
+        <div class="tabs">
+          <ul>
+  					<li><a href="#step6-preview">Preview</a></li>
+  					<li><a href="#step6-JS">JS</a></li>
+		  		  <li><a href="#step6-HTML">HTML</a></li>
+		  		  <li><a href="#step6-Employee">Employee DataClass</a></li>
+		  		  <li><a href="#step6-fullName">fullName</a></li>
+		  		  <li><a href="#step6-age">age</a></li>
+				  </ul>
+  				<div id="step6-preview">
+            <iframe src="tutorial/step5.html"></iframe>
+          </div>
+  				<div id="step5-JS">
+            <script src="http://gist-it.appspot.com/github/AMorgaut/NG-Wakanda-Pack/blob/master/NG-Wakanda-Pack/WebFolder/tutorial/scripts/step6.js?footer=minimal"></script>
+          </div>
+		  		<div id="step5-HTML">
+            <script src="http://gist-it.appspot.com/github/AMorgaut/NG-Wakanda-Pack/blob/master/NG-Wakanda-Pack/WebFolder/tutorial/step6.html?footer=minimal"></script>
           </div>
   				<div id="step5-Employee">
             <script src="http://gist-it.appspot.com/github/AMorgaut/NG-Wakanda-Pack/blob/master/NG-Wakanda-Pack//Modules/Model/Employee/index.js?footer=minimal"></script>
