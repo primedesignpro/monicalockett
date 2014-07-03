@@ -1,8 +1,7 @@
 ﻿// Modules/Model/Company.js
 var Company = module.exports = new DataClass('Companies');
 
-
-Company.ID = new Attribute('storage', 'long', 'key auto');
+Company.ID = new Attribute('storage', 'number', 'key auto');
 
 Company.name = new Attribute('storage', 'string');
 Company.country = new Attribute('relatedEntity', 'Country', 'Country');

@@ -1,0 +1,1 @@
+﻿// Modules/Group.jsvar Group = module.exports = new DataClass('Groups');Group.ID = new Attribute('storage', 'number', 'key auto');Group.name = new Attribute('storage', 'string');Group.contacts = new Attribute('relatedEntities', 'Contacts', 'group', {reversePath:true});
