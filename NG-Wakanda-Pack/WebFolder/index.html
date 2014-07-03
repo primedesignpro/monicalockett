@@ -5,7 +5,7 @@
 
   <title>NG-Wakanda-Pack</title>
 
-  <link rel="stylesheet" href="libs/blitzer/jquery-ui-1.10.4.custom.min.css" />
+  <link rel="stylesheet" href="/bower_components/jquery-ui/themes/blitzer/jquery-ui.min.css" />
   <link rel="stylesheet" href="index.css" />
 </head>
 <body>
@@ -32,11 +32,16 @@
         <h2>1 - Integrate angular-wakanda in your project</h2>
         <p>
 				  <a href="http://bower.io/" target="_blank"><img alt="bower" src="images/bower%20logo.gif" style="float:left; margin:0 1em 1em 0; width: 80px; height: 80px;border:none" /></a>
-          Thanks to <a href="http://bower.io/" target="_blank">Bower</a>, Wakanda is very easy to integrate into Angular interfaces either by command line or via your own <code>bowser.json</code> file
+          Thanks to <a href="http://bower.io/" target="_blank">Bower</a>, Wakanda is very easy to install in by command line,
+          directly or via your own <a href="http://bower.io/" target="_blank"><code>bowser.json</code></a> file
           <script src="http://gist-it.appspot.com/github/AMorgaut/NG-Wakanda-Pack/blob/master/NG-Wakanda-Pack/WebFolder/tutorial/install.sh?footer=minimal"></script>
         </p>
-        <p>If you want to install it manually, <strong>angular-wakanda</strong> only requires one single JavaScript file to include: <a href="https://github.com/AMorgaut/NG-Wakanda-Pack/raw/master/NG-Wakanda-Pack/WebFolder/libs/angular-wakanda.min.js" target="_blank">angular-wankanda-min.js</a>.</p>
-        <script src="http://gist-it.appspot.com/github/AMorgaut/NG-Wakanda-Pack/blob/master/NG-Wakanda-Pack/WebFolder/tutorial/step1.html?slice=8:8&footer=minimal"></script>
+        <p>
+          If you want to install it manually, <strong>angular-wakanda</strong> only requires to include
+          <a href="https://github.com/Wakanda/bower-angular-wakanda/raw/master/angular-wakanda.min.js" target="_blank">angular-wankanda-min.js</a> 
+          and only has <a href="https://github.com/angular/bower-angular/raw/master/angular.min.js" target="_blank">angular.min.js</a> for dependency.
+        </p>
+        <script src="http://gist-it.appspot.com/github/AMorgaut/NG-Wakanda-Pack/blob/master/NG-Wakanda-Pack/WebFolder/tutorial/step1.html?slice=7:8&footer=minimal"></script>
       </td>
       <td>
         <div class="tabs">
@@ -257,8 +262,8 @@
   </section>
 
 
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/bower_components/jquery-ui/jquery-ui.min.js"></script>
 
   <script>
     $('.tabs').tabs();
