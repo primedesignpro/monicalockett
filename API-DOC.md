@@ -1,6 +1,9 @@
 
 # Angular-Wakanda API Documentation
 
+
+## Warning
+
 **BEWARE THIS IS EXPERIMENTAL**
 
 **All this API is experimental. Don't hesitate to create issues to make suggestions.**
@@ -21,7 +24,7 @@ All async methods return a promise
 The Angular-Wakanda connector must of course be loaded in the html. 
 The most classic way is to add it manually:
 
-```html<script src="scripts/angular-wakanda.min.js"></script>```
+```html<script src="myScriptPath/angular-wakanda.min.js"></script>```
 
 This can also be done using [Bower](http://bower.io)
 
@@ -31,7 +34,7 @@ bower install angular-wakanda
 
 ####Angular Module Loading
 
-The next step, as for any angular module, is to be sure to load the Wakanda connector service (currently called `wakConnectorModule`)
+The next step, as for any angular module, is to be sure to load the Wakanda service 
 
 ```javascriptangular.module('MyApp', ['wakanda']);```
 
