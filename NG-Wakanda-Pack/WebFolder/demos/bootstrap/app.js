@@ -2,6 +2,7 @@
 
 angular.module('playAngular', ['wakanda'])
 
+// Snippet from Vojta Jina: http://jsfiddle.net/vojtajina/U7Bz9/
 .directive('whenScrolled', function() {
     return function(scope, elm, attr) {
         var raw = elm[0];
@@ -14,8 +15,6 @@ angular.module('playAngular', ['wakanda'])
     };
 });
 
-
-
 function PlayController($scope, $wakanda) {
 	$wakanda.init('Country,Company,Employee').then(function oninit(ds) {
 	    PlayControllerReady($scope, ds);
@@ -24,97 +23,58 @@ function PlayController($scope, $wakanda) {
 
 function PlayControllerReady($scope, ds) {
     
-	var ds, relation, parent, collection, current, filter;
+    $scope.countries = ds.Country.$find();
 
+    $scope.$watchCollection('countries[0]', function (country) {
+        $scope.country = country;
+    });
 
-	relation = {Country: 'Company', Company: 'Employee'};
-	parent = {Employee: 'Company', Company: 'Country'};
-	collection = {Company: 'companies', Employee: 'employees'};
-	current = {};
-	filter = {};
-
-    $scope.current = current;
-    $scope.filter = filter;
-    $scope.relationLoader = {Country: loadCountries, Company: loadCompanies, Employee: loadEmployees};
-
-    $scope.switchCurrentEntity = function switchCurrentEntity(source, current) {
-        if ($scope.current[source]) {
-            $scope.current[source].selected = false;
-        }
-        $scope.current[source] = current;
-        if (current) {
-            current.selected = true;
-        }
-        // autoload related entities
-        if (source in relation) {
-            if (current) {
-                $scope.relationLoader[relation[source]](current);
-            } else {
-               $scope[collection[relation[source]]] = [];
-               $scope.switchCurrentEntity(relation[source], null);
-            }
-        }
-    }
+    $scope.$watch('country', function (country) {
+        if (!country) return;
+        country.companies.$fetch();
+    });
     
-    $scope.setFilter = function filter(source) {
-        $scope.relationLoader[source](
-            $scope.current[parent[source]],
-            $scope.filter[source]
-        );
+    $scope.$watchCollection('country.companies[0]', function (company) {
+        $scope.company = company;
+    });
+
+    $scope.$watch('company', function (company) {
+        if (!company) return;
+        company.employees = company.$_entity.employees; // TMP HACK
+        if (!company.employees.$fetch) { // TMP HACK
+            company.employees = ds.Employee.$find({filter: 'company.ID = ' + company.ID});
+            return;
+        }
+        company.employees.$fetch();
+    });
+
+    $scope.$watchCollection('company.employees[0]', function (employee) {
+        $scope.employee = employee;
+    });
+
+    // Select an entity from a row
+    $scope.setCurrent = function setCurrent(name, value) {
+        $scope[name] = value;
     };
     
-    function formatFilter(filter, current, currentName) {
-        var name = currentName === 'company' ? 'fullName' : 'name';
-        filter = filter ? [name + ' = "' + filter + '*"'] : [];
-        if (current) {
-            filter.push(currentName + '.ID = ' + current.ID);
+    // Filter
+    $scope.setFilters = function setFilters(collection, dataclass, attr, parent, id) {
+        var scope, value, filters, options;
+        
+        scope = parent ? $scope[parent] : $scope;
+        value = scope[collection]._nameFilter;
+        
+        filters = [];
+        if (value) {
+            filters.push(attr + ' = "' + value + '*"');
         }
-        return {filter: filter.join(' AND ')};
-    }
-    /*
-    $scope.watch('countries', function (countries) {
-        filter.Country = '';
-        current.country = countries[0];
-        current.country.companies.$fetch();
-    });
-    
-    $scope.watch('companies', function (companies) {
-        filter.Company = '';
-        current.company = companies[0];
-        current.company.employees.$fetch();
-    });
+        if (parent) {
+            filters.push(parent + '.ID = ' + id);
+        }
 
-    $scope.watch('employees', function (employees) {
-        filter.Employee = '';
-        current.employee = employees[0];
-    });
-*/
-    function loadCountries(ignore, filter) {
-        filter = formatFilter(filter);
-        $scope.countries = ds.Country.$find(filter);
-        $scope.countries.$promise.then(function(event) {
-            $scope.switchCurrentEntity('Country', event.result[0]);
-        });
-    }
-    
-    function loadCompanies(country, filter) {
-        filter = formatFilter(filter, country, 'country');
-        $scope.companies = ds.Company.$find(filter);
-        $scope.companies.$promise.then(function(event) {
-            $scope.switchCurrentEntity('Company', event.result[0]);
-        });
-    }
-    
-    function loadEmployees(company, filter) {
-        filter = formatFilter(filter, company, 'company');
-        $scope.employees = ds.Employee.$find(filter);
-        $scope.employees.$promise.then(function(event) {
-            $scope.switchCurrentEntity('Employee', event.result[0]);
-        });
-    }
-
-
-
-    loadCountries();
+        options = filters.length ? {filter: filters.join(' AND ')} : {};
+        scope[collection] = ds[dataclass].$find(options);
+        scope[collection]._nameFilter = value;
+    };
     
 }
