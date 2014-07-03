@@ -28,8 +28,6 @@ sessionID.json
 # Wakanda Remote Model Cache
 *.waRemoteModel
 
-#Contact
-*Contact*
 *nogit*
 
 # Wakanda cloud
