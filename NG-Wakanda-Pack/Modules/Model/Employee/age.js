@@ -1,10 +1,9 @@
 ﻿// Modules/Model/Employee/age.js
 var age = module.exports = new Attribute('calculated', 'string');
 
-const
-    MS_BY_YEAR = 31557600000; // 1000 (ms) * 60 (s) * 60 (mn) * 24 (h) * 365.25 (d) -> year
+var MS_BY_YEAR = 31557600000; // 1000 (ms) * 60 (s) * 60 (mn) * 24 (h) * 365.25 (d) -> year
 
-age.onGet = function() {
+age.onGet = function onGet() {
     var
         today,
         interval,
@@ -24,12 +23,12 @@ age.onGet = function() {
 };
 
 
-age.onSort = function() {
+age.onSort = function onSort(ascending) {
     return (ascending ? "birthDate desc" : "birthDate");
 };
 
 
-age.onQuery = function(compOperator, valueToCompare) {
+age.onQuery = function onQuery(operator, age) {
     var
         not,
         birthYearFromAgePlusOne,

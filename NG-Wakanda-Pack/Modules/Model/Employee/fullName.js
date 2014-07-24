@@ -1,7 +1,7 @@
 ﻿// Modules/Model/Employee/fullName.js
 var fullName = module.exports = new Attribute('calculated', 'string');
 
-fullName.onGet = function() {
+fullName.onGet = function Employee_age_onGet() {
     var
         result;
 
@@ -13,18 +13,22 @@ fullName.onGet = function() {
 };
 
 
-fullName.onSet = function() {
+fullName.onSet = function Employee_age_onSet() {
 	// Add your code here;
-	throw new Error('pas cool');
+	throw new Error('not implemented');
 };
 
 
-fullName.onSort = function() {
+fullName.onSort = function Employee_age_onSort() {
     return (ascending ? "firstName, lastName" : "firstName desc, lastName desc");
 };
 
 
-fullName.onQuery = function(compOperator, valueToCompare) {
-    return "firstName " + compOperator + valueToCompare + " || " + "lastName " + compOperator + valueToCompare;
+fullName.onQuery = function Employee_age_onQuery(operator, value) {
+    return [
+        "firstName", operator, value, 
+        "||",
+        "lastName ", operator, value
+    ].join(' ');
 }; 
 
