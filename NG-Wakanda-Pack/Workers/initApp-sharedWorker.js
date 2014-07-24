@@ -44,6 +44,7 @@ self.onconnect = function initAppWorkerOnConnect(event) {
     /*            RE-INIT THE TODO DATA               */
     /**************************************************/
 
+    console.log('Creating Items..........');
     ds.Item.remove();
     [
         {ID: 1, text: 'Try AngularJS', done: true},
@@ -59,29 +60,40 @@ self.onconnect = function initAppWorkerOnConnect(event) {
     /*       RE-INIT THE GROUP / CONTACT DATA         */
     /**************************************************/
 
-
-    var groups;
+    // remove old data
+    console.log('Removing Contacts and Groups..........');
     ds.Group.remove();
     ds.Contact.remove();
+
+    // create groups
+    console.log('Creating Groups..........');
+    var groups = {};
     [
         {ID: 1, name: 'Coworkers'},
         {ID: 2, name: 'Friends'},
         {ID: 3, name: 'Family'},
     ].forEach(function addGroup(group) {
-        group = new ds.Group(group);
+        var group = new ds.Group(group);
         group.save();
         groups[group.name] = group;
     });
+
+    // create contacts
+    console.log('Creating Contacts..........');
     [
-        {name: 'Cindy',   group: groups.Coworkers, mobile: '+1 234567890'},
-        {name: 'Jerry',   group: groups.Coworkers, mobile: '+1 345678901'},
-        {name: 'Paul',    group: groups.Friends,   mobile: '+1 456789012'},
-        {name: 'Bill',    group: groups.Friends,   mobile: '+1 567890123'},
-        {name: 'Hilary',  group: groups.Friends,   mobile: '+1 678901234'},
-        {name: 'Cindy',   group: groups.Family,    mobile: '+1 789012345'},
-        {name: 'Phillip', group: groups.Family,    mobile: '+1 890123456'}
-    ].forEach(function addContact(contact) {
-        contact = new ds.Group(contact);
+        ['Cindy',   'Coworkers', '+1 234567890'],
+        ['Jerry',   'Coworkers', '+1 345678901'],
+        ['Paul',    'Friends',   '+1 456789012'],
+        ['Bill',    'Friends',   '+1 567890123'],
+        ['Hilary',  'Friends',   '+1 678901234'],
+        ['Cindy',   'Family',    '+1 789012345'],
+        ['Phillip', 'Family',    '+1 890123456']
+    ].forEach(function addContact(data) {
+        var contact = new ds.Contact({
+            name: data[0], 
+            group: groups[data[1]], 
+            mobile: data[2]
+        });
         contact.save();
     });
 
