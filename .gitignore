@@ -42,3 +42,6 @@ sessionID.json
 
 # Wakanda cloud
 */ExtensionSettings/paas/Settings.json
+
+# Webstorm
+.idea
