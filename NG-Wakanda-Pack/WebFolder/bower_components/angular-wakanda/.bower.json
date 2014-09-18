@@ -1,6 +1,6 @@
 {
   "name": "angular-wakanda",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "keywords": [
     "angular",
     "angular.js",
@@ -10,20 +10,20 @@
     "nosql",
     "ssjs"
   ],
-  "description": "Provides a full proxy of WakandaDB NoSQL DataModels with its relationships & methods in Angular",
+  "description": "[Experimental] Provides a full proxy of WakandaDB NoSQL DataModels with its relationships & methods in Angular",
   "homepage": "http://ng-wakanda-pack.us.wak-apps.com/",
   "main": "./angular-wakanda.min.js",
+  "license": "BSD",
   "dependencies": {
-    "angular": "1.2.6"
+    "angular": "~1.2"
   },
-  "_release": "0.3.0",
+  "_release": "0.3.1",
   "_resolution": {
     "type": "version",
-    "tag": "v0.3.0",
-    "commit": "4078824968877a87432c4cc9fa9da3b7dff52943"
+    "tag": "v0.3.1",
+    "commit": "fbd3a3524445328209b8c517c1fac14cbf302615"
   },
   "_source": "git://github.com/Wakanda/bower-angular-wakanda.git",
   "_target": "~0.3.0",
-  "_originalSource": "angular-wakanda",
-  "_direct": true
+  "_originalSource": "angular-wakanda"
 }
