@@ -1,6 +1,4 @@
-'use strict';
-
-angular.module('playAngular', ['wakanda'])
+﻿angular.module('PlayAngular', ['wakanda'])
 
 // Snippet from Vojta Jina: http://jsfiddle.net/vojtajina/U7Bz9/
 .directive('whenScrolled', function() {
@@ -15,40 +13,63 @@ angular.module('playAngular', ['wakanda'])
     };
 });
 
+
 function PlayController($scope, $wakanda) {
 	$wakanda.init('Country,Company,Employee').then(function oninit(ds) {
-	    PlayControllerReady($scope, ds);
+	    playControllerReady($scope, ds);
 	});
 }
 
-function PlayControllerReady($scope, ds) {
+
+function playControllerReady($scope, ds) {
     
-    $scope.countries = ds.Country.$find();
+    var ready = false;
+
+    $scope.allCountries = ds.Country.$find();
+    
+    $scope.countries = $scope.allCountries;
 
     $scope.$watchCollection('countries[0]', function (country) {
         $scope.country = country;
     });
 
+
     $scope.$watch('country', function (country) {
-        if (!country) return;
+        if (!country) {
+            return;
+        }
+        // copy to a dedicated collection to allow dedicated filter
+        $scope.companies = country.companies;
         country.companies.$fetch();
     });
-    
-    $scope.$watchCollection('country.companies[0]', function (company) {
+
+
+    $scope.$watchCollection('companies[0]', function (company) {
         $scope.company = company;
     });
 
+/*
     $scope.$watch('company', function (company) {
-        if (!company) return;
-        company.employees = company.$_entity.employees; // TMP HACK
-        if (!company.employees.$fetch) { // TMP HACK
-            company.employees = ds.Employee.$find({filter: 'company.ID = ' + company.ID});
+        if (!company) {
             return;
         }
+        // copy to a dedicated collection to allow dedicated filter
+        $scope.employees = company.employees;
         company.employees.$fetch();
     });
+*/
+  
+    // TMP HACK
+    $scope.$watch('company', function (company) {
+        if (!company) {
+            return;
+        }
+        
+        company.employees = ds.Employee.$find({filter: 'company.ID = ' + company.ID});
+        $scope.employees = company.employees;
+    });
 
-    $scope.$watchCollection('company.employees[0]', function (employee) {
+    $scope.$watchCollection('employees[0]', function (employee) {
         $scope.employee = employee;
     });
 
@@ -57,24 +78,31 @@ function PlayControllerReady($scope, ds) {
         $scope[name] = value;
     };
     
-    // Filter
-    $scope.setFilters = function setFilters(collection, dataclass, attr, parent, id) {
-        var scope, value, filters, options;
+    // Filter a list
+    $scope.setFilter = function setFilter(target, source, attr) {
+
+        $scope[target] = source.$find(attr + ' = "' + source._filter + '*"');
+
+    };
+    
+    // TMP HACK
+    $scope.setFilter = function setFilter(collection, dataclass, attr, parent) {
+        var value, filters, options;
         
-        scope = parent ? $scope[parent] : $scope;
-        value = scope[collection]._nameFilter;
+        value = $scope[collection]._filter;
         
         filters = [];
         if (value) {
             filters.push(attr + ' = "' + value + '*"');
         }
         if (parent) {
-            filters.push(parent + '.ID = ' + id);
+            filters.push(parent + '.ID = ' + $scope[parent].ID);
         }
 
         options = filters.length ? {filter: filters.join(' AND ')} : {};
-        scope[collection] = ds[dataclass].$find(options);
-        scope[collection]._nameFilter = value;
+        $scope[collection] = ds[dataclass].$find(options);
+        $scope[collection]._filter = value;
     };
+    
     
 }

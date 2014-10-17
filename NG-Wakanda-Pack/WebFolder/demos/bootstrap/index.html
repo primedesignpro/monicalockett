@@ -1,5 +1,5 @@
-<!doctype html>
-<html ng-app="playAngular">
+﻿<!doctype html>
+<html ng-app="PlayAngular">
 
   <head>
     <meta charset="utf-8">
@@ -15,7 +15,7 @@
   <body ng-controller="PlayController">
 
     <header class="container-fluid page-header">
-      <h1>Angular-Wakanda - Bootstrap</h1>
+      <h1>Angular-Wakanda</h1>
     </header>
 
     <div id="main" class="row container-fluid page-body">
@@ -29,7 +29,8 @@
             <p>All <span class="badge">{{countries.$totalCount}}</span></p>
             <div class="input-group">
               <span class="input-group-btn"><button class="btn btn-default" type="button" disabled>Filter</button></span>
-              <input type="text" class="form-control" ng-model="countries._nameFilter" ng-change="setFilters('countries', 'Country', 'name')">
+              <!--input type="text" class="form-control" ng-model="allCountries._filter" ng-change="setFilter('countries', allCountries, 'name')"-->
+              <input type="text" class="form-control" ng-model="countries._filter" ng-change="setFilter('countries', 'Country', 'name')">
             </div>
           </div>
           <table class="table table-striped table-hover">
@@ -51,13 +52,14 @@
             <p>From <strong>{{country.name}}</strong> <span class="badge">{{country.companies.$totalCount}}</span></p>
             <div class="input-group">
               <span class="input-group-btn"><button class="btn btn-default" type="button" disabled>Filter</button></span>
-              <input type="text" class="form-control" ng-model="country.companies._nameFilter" ng-change="setFilters('companies', 'Company', 'name', 'country', country.ID)">
+              <!-- input type="text" class="form-control" ng-model="country.companies._filter" ng-change="setFilter('companies', country.companies, 'name')" -->
+              <input type="text" class="form-control" ng-model="companies._filter" ng-change="setFilter('companies', 'Company', 'name', 'country', country.ID)">
             </div>
           </div>
           <div>
             <table class="table table-striped table-hover">
-              <tbody when-scrolled="country.companies.$more()">
-                <tr ng-repeat="c in country.companies" class="{{c === company && 'info'}}">
+              <tbody when-scrolled="companies.$more()">
+                <tr ng-repeat="c in companies" class="{{c === company && 'info'}}">
                   <td ng-click="setCurrent('company', c)">{{c.name}}</td>
                 </tr>
               <tbody>
@@ -75,13 +77,14 @@
             <p>From <strong>{{company.name}}</strong> <span class="badge">{{company.employees.$totalCount}}</span></p>
             <div class="input-group">
               <span class="input-group-btn"><button class="btn btn-default" type="button" disabled>Filter</button></span>
-              <input type="text" class="form-control" ng-model="company.employees._nameFilter" ng-change="setFilters('employees', 'Employee', 'fullName', 'company', company.ID)">
+              <!-- input type="text" class="form-control" ng-model="company.employees._filter" ng-change="setFilter('employees', company.employees, 'fullName')" -->
+              <input type="text" class="form-control" ng-model="employees._filter" ng-change="setFilter('employees', 'Employee', 'fullName', 'company', company.ID)">
             </div>
           </div>
           <div>
             <table class="table table-striped table-hover">
-              <tbody when-scrolled="company.employees.$more()">
-                <tr ng-repeat="e in company.employees" class="{{e === employee && 'info'}}">
+              <tbody when-scrolled="employees.$more()">
+                <tr ng-repeat="e in employees" class="{{e === employee && 'info'}}">
                   <td ng-click="setCurrent('employee', e)">{{e.fullName}}</td>
                 </tr>
               <tbody>
