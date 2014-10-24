@@ -24,7 +24,9 @@ All async methods return a promise
 The Angular-Wakanda connector must of course be loaded in the html. 
 The most classic way is to add it manually:
 
-```html<script src="myScriptPath/angular-wakanda.min.js"></script>```
+```html
+<script src="myScriptPath/angular-wakanda.min.js"></script>
+```
 
 This can also be done using [Bower](http://bower.io)
 
@@ -36,7 +38,9 @@ bower install angular-wakanda
 
 The next step, as for any angular module, is to be sure to load the Wakanda service 
 
-```javascriptangular.module('MyApp', ['wakanda']);```
+```javascript
+angular.module('MyApp', ['wakanda']);
+```
 
 #### init()
 
@@ -86,7 +90,7 @@ To get the required permissions to use the Wakanda DataClass, it is often requir
 // return promises
 $wakanda.$login(user, password);
 $wakanda.$logout();
-$wakanda.$curentUser();
+$wakanda.$currentUser();
 $wakanda.$currentUserBelongsTo();
 ```
 
